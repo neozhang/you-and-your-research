@@ -2,13 +2,14 @@ import React from "react";
 import { useApp } from "../hooks";
 
 // import extractNote from "../utils/ExtractNote";
-import generateKnowledgeCards from "../utils/ExpandNote";
+import generateKnowledgeCards from "../utils/GenerateCards";
 import { saveNote } from "../utils/SaveNote";
 
 export const NoteExtractor = () => {
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
+	const [cards, setCards] = React.useState([]);
 	const { vault } = useApp();
 
 	// Use Jina AI to extract texts from given URL
@@ -60,82 +61,48 @@ export const NoteExtractor = () => {
 				/>
 				<button
 					onClick={() => extractNote(url || "https://example.com")}
-					style={{
-						backgroundColor: "#4CAF50",
-						color: "white",
-						padding: "10px 20px",
-						border: "none",
-						borderRadius: "4px",
-						cursor: "pointer",
-					}}
+					className="btn btn-primary"
 				>
 					Extract
 				</button>
 			</div>
 			{content && title && (
-				<div
-					style={{
-						marginTop: "16px",
-						padding: "16px",
-						border: "1px solid #d1d5db",
-						borderRadius: "4px",
-						backgroundColor: "white",
-					}}
-				>
-					<div
-						style={{
-							fontSize: "16px",
-							fontWeight: "bold",
-							marginBottom: "8px",
-						}}
-					>
-						{title}
-					</div>
-					<div
-						style={{
-							fontSize: "14px",
-							whiteSpace: "normal",
-							overflow: "hidden",
-							textOverflow: "ellipsis",
-							display: "-webkit-box",
-							WebkitLineClamp: "3",
-							WebkitBoxOrient: "vertical",
-							color: "black",
-							marginBottom: "8px",
-						}}
-					>
-						{content}
-					</div>
+				<div className="card">
+					<div className="card-title">{title}</div>
+					<div className="card-content">{content}</div>
 					<button
-						style={{
-							marginRight: "8px",
-							backgroundColor: "#4CAF50",
-							color: "white",
-							padding: "10px 20px",
-							border: "none",
-							borderRadius: "4px",
-							cursor: "pointer",
-						}}
+						className="btn btn-primary"
 						onClick={() => saveNote({ title, content, url }, vault)}
 					>
 						Save
 					</button>
 					<button
-						style={{
-							backgroundColor: "#008CBA",
-							color: "white",
-							padding: "10px 20px",
-							border: "none",
-							borderRadius: "4px",
-							cursor: "pointer",
+						className="btn btn-secondary"
+						onClick={async () => {
+							const newCards = await generateKnowledgeCards(
+								content
+							);
+							const cleanNewCards = newCards
+								.replace(/```json/g, "")
+								.replace(/```/g, "")
+								.trim();
+
+							setCards(JSON.parse(cleanNewCards));
 						}}
-						onClick={() =>
-							expandNoteToKnowledgeCards(title, content)
-						}
 					>
-						Expand
+						Generate Cards
 					</button>
 				</div>
+			)}
+			{cards && cards.length > 0 && (
+				<ul style={{ listStyleType: "none", padding: 0 }}>
+					{cards.map((card, index) => (
+						<li key={index} className="card">
+							<div className="card-title">{card.title}</div>
+							<div className="card-content">{card.content}</div>
+						</li>
+					))}
+				</ul>
 			)}
 		</>
 	);

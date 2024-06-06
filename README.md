@@ -16,3 +16,5 @@ to
 -   [x] Add URL as a frontmatter property
 -   [x] Clean up the Jina Reader mess
 -   [ ] Consider dark mode for styles
+-   [x] Develop the GenerateCards module
+-   [ ]Improve the prompt for GenerateCards
