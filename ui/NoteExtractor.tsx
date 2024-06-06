@@ -91,7 +91,21 @@ export const NoteExtractor = () => {
 					>
 						{title}
 					</div>
-					<div style={{ fontSize: "14px" }}>{content}</div>
+					<div
+						style={{
+							fontSize: "14px",
+							whiteSpace: "normal",
+							overflow: "hidden",
+							textOverflow: "ellipsis",
+							display: "-webkit-box",
+							WebkitLineClamp: "3",
+							WebkitBoxOrient: "vertical",
+							color: "black",
+							marginBottom: "8px",
+						}}
+					>
+						{content}
+					</div>
 					<button
 						style={{
 							marginRight: "8px",

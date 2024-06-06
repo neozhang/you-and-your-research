@@ -12,4 +12,7 @@ to
 
 ## Todo
 
--   [ ] Develop the SaveNote module
+-   [x] Develop the SaveNote module
+-   [x] Add URL as a frontmatter property
+-   [x] Clean up the Jina Reader mess
+-   [ ] Consider dark mode for styles
