@@ -1,11 +1,9 @@
 import React from "react";
 import { useApp } from "../hooks";
-
-// import extractNote from "../utils/ExtractNote";
 import generateCards from "../utils/GenerateCards";
 import { saveNote } from "../utils/SaveNote";
 
-export const NoteExtractor = () => {
+export const NoteExtractor = (openAIAPIKey: string, openAIModel: string) => {
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
@@ -24,7 +22,7 @@ export const NoteExtractor = () => {
 			});
 			const data = await response.json();
 			setContent(data.data.content);
-			setTitle(data.data.title);
+			setTitle(data.data.title.replace(/[\\/:*?"<>|]/g, "_"));
 		} catch (error) {
 			console.error("Failed to fetch data", error);
 			throw new Error("Failed to fetch data");
@@ -69,13 +67,28 @@ export const NoteExtractor = () => {
 						<button
 							className="btn btn-secondary"
 							onClick={async () => {
-								const newCards = await generateCards(content);
+								const newCards = await generateCards(
+									content,
+									openAIAPIKey,
+									openAIModel
+								);
+								console.log(newCards, typeof newCards);
 								const cleanNewCards = newCards
 									.replace(/```json/g, "")
 									.replace(/```/g, "")
 									.trim();
-
-								setCards(JSON.parse(cleanNewCards));
+								const cleanNewCardsJSON = JSON.parse(
+									cleanNewCards
+								).map((card: any) => {
+									return {
+										id: card.id,
+										title: card.title,
+										content: card.content,
+										url: "[[" + (title as string) + "]]",
+									};
+								});
+								setCards(cleanNewCardsJSON);
+								console.log(cleanNewCardsJSON);
 							}}
 						>
 							Generate Cards
@@ -84,18 +97,35 @@ export const NoteExtractor = () => {
 				</div>
 			)}
 			{cards && cards.length > 0 && (
-				<ul
-					style={{ listStyleType: "none", padding: 0, marginLeft: 8 }}
-				>
-					{cards.map((card, index) => (
-						<li key={index} className="card card-secondary">
+				<ul style={{ listStyleType: "none", padding: 0 }}>
+					{cards.map((card: any, index: any) => (
+						<li
+							key={index}
+							className={`card card-secondary ${
+								card.id === -1 && "card-warning"
+							}`}
+						>
 							<div className="card-title">{card.title}</div>
 							<div className="card-content">{card.content}</div>
-							<div className="card-footer">
-								<button className="btn btn-primary">
-									Save
-								</button>
-							</div>
+							{card.id !== -1 && (
+								<div className="card-footer">
+									<button
+										className="btn btn-secondary"
+										onClick={() =>
+											saveNote(
+												{
+													title: card.title,
+													content: card.content,
+													url: card.url,
+												},
+												vault
+											)
+										}
+									>
+										Save
+									</button>
+								</div>
+							)}
 						</li>
 					))}
 				</ul>

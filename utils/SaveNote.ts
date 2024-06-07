@@ -7,13 +7,12 @@ interface Note {
 export const saveNote = (note: Note, vault) => {
 	console.log("Notes saved:", note);
 	// Additional logic to handle saved notes
-	const sanitizedTitle = note.title.replace(/[\\/:*?"<>|]/g, "-");
 	const cleanedContent = cleanupJinaReaderContent(note.content);
-	let fileName = `${sanitizedTitle}.md`;
+	let fileName = `${note.title}.md`;
 	let counter = 1;
 	const checkAndCreateFile = async () => {
 		while (await vault.exists(fileName)) {
-			fileName = `${sanitizedTitle} - ${counter}.md`;
+			fileName = `${note.title} - ${counter}.md`;
 			counter++;
 		}
 		const contentWithFrontmatter = `---\nurl: ${note.url}\n---\n${cleanedContent}`;

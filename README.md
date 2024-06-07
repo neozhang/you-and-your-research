@@ -18,3 +18,5 @@ to
 -   [x] Consider dark mode for styles
 -   [x] Develop the GenerateCards module
 -   [ ] Improve the prompt for GenerateCards
+-   [x] Bring your own API key
+-   [ ] Add loading animation

@@ -1,20 +1,19 @@
-// fetch OpenAI API to generate an array of knowledge cards from the extracted notes
-// import * as dotenv from "dotenv";
+import { OpenAISettingsModal } from "../ui/openAISettingsModal";
 
-export const generateCards = async (note: string) => {
+export const generateCards = async (
+	note: string,
+	openAIAPIKey: string,
+	openAIModel: string
+) => {
 	const prompt = `Generate 3 knowledge cards from the following note in JSON with the following format: [{id: id, title: "title", content: "content"}], : ${note}`;
-	// dotenv.config({ path: "../.env" });
-	// console.log(process.env.REACT_APP_OPENAI_API_KEY);
-
 	const response = await fetch("https://api.openai.com/v1/chat/completions", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization:
-				"Bearer sk-proj-TpY6cyV0F8PXztuyCtStT3BlbkFJK3TLWitdSIuyZpgAC3Gc",
+			Authorization: "Bearer " + openAIAPIKey,
 		},
 		body: JSON.stringify({
-			model: "gpt-3.5-turbo",
+			model: openAIModel,
 			messages: [
 				{
 					role: "system",
@@ -28,6 +27,18 @@ export const generateCards = async (note: string) => {
 			temperature: 0.1,
 		}),
 	});
+
+	if (response.status === 401) {
+		const errorMessage = [
+			{
+				id: -1,
+				title: "Error",
+				content:
+					"Invalid API key. Please provide a proper OpenAI API key in Settings.",
+			},
+		];
+		return JSON.stringify(errorMessage);
+	}
 
 	const data = await response.json();
 	return data.choices[0].message.content;

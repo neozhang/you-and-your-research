@@ -41,6 +41,11 @@ If your plugin does not need CSS, delete this file.
 	background-color: var(--background-secondary);
 }
 
+.card-warning {
+	border: 1px solid var(--background-modifier-border);
+	background-color: var(--background-modifier-error);
+}
+
 .card-title {
 	font-size: var(--font-ui-medium);
 	font-weight: bold;
