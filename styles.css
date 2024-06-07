@@ -7,45 +7,82 @@ If your plugin does not need CSS, delete this file.
 
 */
 
+.topbar {
+	display: flex;
+	margin-bottom: var(--size-4-2);
+	background-color: var(--background-secondary);
+}
+
+.topbar .searchbox {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	flex-grow: 1;
+	margin-right: var(--size-4-2);
+}
+
+.topbar .btn {
+	margin: 0;
+}
+
 .card {
-	margin-top: 16px;
-	padding: 16px;
-	border: 1px solid #d1d5db;
-	border-radius: 4px;
-	background-color: white;
+	padding: var(--size-4-4);
+	margin: 0;
+	margin-bottom: var(--size-4-2);
+	border-radius: var(--radius-s);
+}
+
+.card-primary {
+	border: 1px solid var(--background-modifier-border);
+	background-color: var(--background-primary);
+}
+
+.card-secondary {
+	border: 1px solid var(--background-modifier-border);
+	background-color: var(--background-secondary);
 }
 
 .card-title {
-	font-size: 16px;
+	font-size: var(--font-ui-medium);
 	font-weight: bold;
-	margin-bottom: 8px;
+	color: var(--text-normal);
+	text-align: left;
+	margin-bottom: var(--size-4-2);
+	line-height: normal;
 }
 
 .card-content {
-	font-size: 14px;
+	font-size: var(--font-ui-small);
 	white-space: normal;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
 	-webkit-line-clamp: 3;
 	-webkit-box-orient: vertical;
-	color: black;
-	margin-bottom: 8px;
+	color: var(--text-muted);
+	margin-bottom: var(--size-4-2);
+}
+
+.card-footer {
+	display: flex;
+	justify-content: flex-start;
 }
 
 .btn {
-	padding: 8px 16px;
-	border: 1px solid #d1d5db;
-	color: black;
+	padding: var(--size-4-2) var(--size-4-4);
+	border: 1px solid var(--background-modifier-border);
+	color: var(--text-normal);
 	cursor: pointer;
+	margin-right: var(--size-4-2);
+	border-radius: var(--radius-s);
+	box-shadow: none !important;
 }
 
 .btn-primary {
-	background-color: #007bff;
-	color: white;
+	background-color: var(--interactive-normal);
+	color: var(--text-normal);
 }
 
 .btn-secondary {
-	background-color: #6c727f;
-	color: white;
+	background-color: var(--background-secondary);
+	color: var(--text-normal);
 }
