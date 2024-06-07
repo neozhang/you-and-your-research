@@ -7,6 +7,11 @@ If your plugin does not need CSS, delete this file.
 
 */
 
+.loading-animation {
+	font-size: var(--font-ui-small);
+	color: var(--text-normal);
+}
+
 .topbar {
 	display: flex;
 	margin-bottom: var(--size-4-2);

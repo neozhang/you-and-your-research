@@ -13,7 +13,7 @@ interface NoteExtractorSetting {
 }
 const DEFAULT_SETTINGS: Partial<NoteExtractorSetting> = {
 	openAIAPIKey: "",
-	openAIModel: "GPT-3.5-Turbo",
+	openAIModel: "gpt-3.5-turbo",
 };
 
 class MyReactView extends ItemView {

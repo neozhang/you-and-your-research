@@ -1,16 +1,15 @@
-import { OpenAISettingsModal } from "../ui/openAISettingsModal";
-
 export const generateCards = async (
 	note: string,
 	openAIAPIKey: string,
 	openAIModel: string
 ) => {
+	console.log(openAIAPIKey, openAIModel);
 	const prompt = `Generate 3 knowledge cards from the following note in JSON with the following format: [{id: id, title: "title", content: "content"}], : ${note}`;
 	const response = await fetch("https://api.openai.com/v1/chat/completions", {
 		method: "POST",
 		headers: {
+			Authorization: `Bearer ${openAIAPIKey}`,
 			"Content-Type": "application/json",
-			Authorization: "Bearer " + openAIAPIKey,
 		},
 		body: JSON.stringify({
 			model: openAIModel,

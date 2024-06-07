@@ -3,18 +3,21 @@ import { useApp } from "../hooks";
 import generateCards from "../utils/GenerateCards";
 import { saveNote } from "../utils/SaveNote";
 
-export const NoteExtractor = (openAIAPIKey: string, openAIModel: string) => {
+export const NoteExtractor = ({ openAIAPIKey, openAIModel }) => {
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
 	const [cards, setCards] = React.useState([]);
+	const [isExtracting, setIsExtracting] = React.useState(false);
+	const [isGenerating, setIsGenerating] = React.useState(false);
 	const { vault } = useApp();
 
 	// Use Jina AI to extract texts from given URL
-	const API = "https://r.jina.ai/";
+	const jinaAPI = "https://r.jina.ai/";
 	const extractNote = async (url: string) => {
 		try {
-			const response = await fetch(API + url, {
+			setIsExtracting(true);
+			const response = await fetch(jinaAPI + url, {
 				method: "GET",
 				headers: {
 					Accept: "application/json",
@@ -26,6 +29,8 @@ export const NoteExtractor = (openAIAPIKey: string, openAIModel: string) => {
 		} catch (error) {
 			console.error("Failed to fetch data", error);
 			throw new Error("Failed to fetch data");
+		} finally {
+			setIsExtracting(false);
 		}
 	};
 
@@ -45,12 +50,24 @@ export const NoteExtractor = (openAIAPIKey: string, openAIModel: string) => {
 					className="searchbox"
 				/>
 				<button
-					onClick={() => extractNote(url || "https://example.com")}
+					onClick={() =>
+						extractNote(url || "https://example.com").finally(
+							() => {
+								setIsExtracting(false);
+							}
+						)
+					}
 					className="btn btn-primary"
+					disabled={isExtracting}
 				>
 					Extract
 				</button>
 			</div>
+			{isExtracting && (
+				<div className="loading-container">
+					<div className="loading-animation">Loading...</div>
+				</div>
+			)}
 			{content && title && (
 				<div className="card card-primary">
 					<div className="card-title">{title}</div>
@@ -67,33 +84,45 @@ export const NoteExtractor = (openAIAPIKey: string, openAIModel: string) => {
 						<button
 							className="btn btn-secondary"
 							onClick={async () => {
-								const newCards = await generateCards(
-									content,
-									openAIAPIKey,
-									openAIModel
-								);
-								console.log(newCards, typeof newCards);
-								const cleanNewCards = newCards
-									.replace(/```json/g, "")
-									.replace(/```/g, "")
-									.trim();
-								const cleanNewCardsJSON = JSON.parse(
-									cleanNewCards
-								).map((card: any) => {
-									return {
-										id: card.id,
-										title: card.title,
-										content: card.content,
-										url: "[[" + (title as string) + "]]",
-									};
-								});
-								setCards(cleanNewCardsJSON);
-								console.log(cleanNewCardsJSON);
+								setIsGenerating(true);
+								try {
+									const newCards = await generateCards(
+										content,
+										openAIAPIKey,
+										openAIModel
+									);
+									console.log(newCards, typeof newCards);
+									const cleanNewCards = newCards
+										.replace(/```json/g, "")
+										.replace(/```/g, "")
+										.trim();
+									const cleanNewCardsJSON = JSON.parse(
+										cleanNewCards
+									).map((card: any) => {
+										return {
+											id: card.id,
+											title: card.title,
+											content: card.content,
+											url:
+												"[[" + (title as string) + "]]",
+										};
+									});
+									setCards(cleanNewCardsJSON);
+									console.log(cleanNewCardsJSON);
+								} finally {
+									setIsGenerating(false);
+								}
 							}}
+							disabled={isGenerating}
 						>
 							Generate Cards
 						</button>
 					</div>
+				</div>
+			)}
+			{isGenerating && (
+				<div className="loading-container">
+					<div className="loading-animation">Generating Cards...</div>
 				</div>
 			)}
 			{cards && cards.length > 0 && (
