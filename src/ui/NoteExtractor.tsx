@@ -3,14 +3,20 @@ import { useApp } from "../hooks";
 import generateCards from "../utils/GenerateCards";
 import { saveNote } from "../utils/SaveNote";
 
-export const NoteExtractor = ({ openAIAPIKey, openAIModel }) => {
+export const NoteExtractor = ({
+	openAIAPIKey,
+	openAIModel,
+}: {
+	openAIAPIKey: string;
+	openAIModel: string;
+}) => {
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
 	const [cards, setCards] = React.useState([]);
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
-	const { vault } = useApp();
+	const { vault } = useApp() ?? {};
 
 	// Use Jina AI to extract texts from given URL
 	const jinaAPI = "https://r.jina.ai/";

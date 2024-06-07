@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
+	"name": "obsidian-note-extractor",
 	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"description": "Extract notes from the Web, save them in your Obsidian Vault and generate knowledge cards from them.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",

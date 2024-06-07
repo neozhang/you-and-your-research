@@ -1,8 +1,8 @@
 import { ItemView, Plugin, WorkspaceLeaf } from "obsidian";
 import React from "react";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import { AppContext } from "./context";
-import { NoteExtractorSettingTab } from "./settings";
+import { NoteExtractorSettingTab } from "./ui/settings";
 import NoteExtractor from "./ui/NoteExtractor";
 
 const VIEW_TYPE = "react-view";
@@ -90,8 +90,11 @@ export default class NoteExtractorPlugin extends Plugin {
 		if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length) {
 			return;
 		}
-		this.app.workspace.getRightLeaf(false).setViewState({
-			type: VIEW_TYPE,
-		});
+		const rightLeaf = this.app.workspace.getRightLeaf(false);
+		if (rightLeaf) {
+			rightLeaf.setViewState({
+				type: VIEW_TYPE,
+			});
+		}
 	}
 }

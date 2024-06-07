@@ -19,4 +19,5 @@ to
 -   [x] Develop the GenerateCards module
 -   [ ] Improve the prompt for GenerateCards
 -   [x] Bring your own API key
--   [ ] Add loading animation
+-   [x] Add loading animation
+-   [ ] Fix the backlink issue in saving the url property of knowledge cards

@@ -3,9 +3,9 @@
 	"name": "Note Extractor",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
+	"description": "Extract notes from the Web, save them in your Obsidian Vault and generate knowledge cards from them.",
 	"author": "Obsidian",
 	"authorUrl": "https://pt.plus",
 	"fundingUrl": "https://pt.plus",
-	"isDesktopOnly": false
+	"isDesktopOnly": true
 }

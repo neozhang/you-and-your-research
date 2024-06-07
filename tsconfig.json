@@ -12,7 +12,8 @@
 		"isolatedModules": true,
 		"jsx": "react-jsx",
 		"strictNullChecks": true,
-		"lib": ["DOM", "ES5", "ES6", "ES7"]
+		"lib": ["DOM", "ES5", "ES6", "ES7"],
+		"allowSyntheticDefaultImports": true
 	},
-	"include": ["**/*.ts", "**/*.tsx", "main.tsx"]
+	"include": ["**/*.ts", "**/*.tsx", "src/main.tsx"]
 }

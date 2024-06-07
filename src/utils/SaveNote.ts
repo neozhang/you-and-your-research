@@ -4,7 +4,7 @@ interface Note {
 	url: string;
 }
 
-export const saveNote = (note: Note, vault) => {
+export const saveNote = (note: Note, vault: any) => {
 	console.log("Notes saved:", note);
 	// Additional logic to handle saved notes
 	const cleanedContent = cleanupJinaReaderContent(note.content);

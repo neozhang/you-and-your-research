@@ -1,4 +1,4 @@
-import NoteExtractorPlugin from "./main";
+import NoteExtractorPlugin from "../main";
 import { App, PluginSettingTab, Setting } from "obsidian";
 
 export class NoteExtractorSettingTab extends PluginSettingTab {
