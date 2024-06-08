@@ -28,10 +28,13 @@ export const SaveNote = (note: Note, vault: any) => {
 
 const cleanupJinaReaderContent = (content: string) => {
 	const cleanedContent = content
-		.replace(/^\d+\.\s+(#+\s*.+)/gm, "$1")
-		.replace(/^(.+)\n=+/gm, "# $1")
-		.replace(/^(.+)\n-+/gm, "## $1")
-		.replace(/^\s+/gm, "");
+		.replace(/^\d+\.\s+(#+\s*.+)/gm, "$1") // remove the number at the beginning of each line
+		.replace(/^(.+)\n=+/gm, "# $1") // change heading 1 from = to #
+		.replace(/^(.+)\n-+/gm, "## $1") // change heading 2 from - to ##
+		.replace(/^\s+/gm, "") // remove whitespaces at the beginning of each line
+		.replace(/\n/gm, "\n\n") // add a blank line after each line
+		.replace(/\n\s*\n(?=>\s*\n)/gm, ""); // remove the blank line after blank blockquote lines
+
 	return cleanedContent;
 };
 

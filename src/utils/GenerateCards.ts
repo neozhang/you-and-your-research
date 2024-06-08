@@ -4,7 +4,16 @@ export const GenerateCards = async (
 	openAIModel: string
 ) => {
 	console.log(openAIAPIKey, openAIModel);
-	const prompt = `Generate 3 knowledge cards from the following note in JSON with the following format: [{id: id, title: "title", content: "content"}], : ${note}`;
+	const prompt = `Generate notes from the following doc in JSON with the following format: 
+	[{id: id, title: "title", content: "content"}]. Follow the instructions below:
+	1. The titles of the notes should be short phrases which can be 
+	distinguishable with explicit subject matters, and holistically 
+	present the main logic structure of the provided doc. 
+	2. The contents of the notes should use the original wording when possible, 
+	and pull all relevant pieces from the provided doc to support their titles. 
+	3. The notes including titles and contents should use the original 
+	language of the provided doc. 
+	4. Only keep the most informative notes. Combine related notes into one note. \n ${note}`;
 	const response = await fetch("https://api.openai.com/v1/chat/completions", {
 		method: "POST",
 		headers: {
@@ -15,15 +24,11 @@ export const GenerateCards = async (
 			model: openAIModel,
 			messages: [
 				{
-					role: "system",
-					content: "You are a knowledge card generator.",
-				},
-				{
 					role: "user",
 					content: prompt,
 				},
 			],
-			temperature: 0.1,
+			temperature: 0.5,
 		}),
 	});
 
