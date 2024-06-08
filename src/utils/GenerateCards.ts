@@ -6,14 +6,12 @@ export const GenerateCards = async (
 	console.log(openAIAPIKey, openAIModel);
 	const prompt = `Generate notes from the following doc in JSON with the following format: 
 	[{id: id, title: "title", content: "content"}]. Follow the instructions below:
-	1. The titles of the notes should be short phrases which can be 
-	distinguishable with explicit subject matters, and holistically 
-	present the main logic structure of the provided doc. 
-	2. The contents of the notes should use the original wording when possible, 
-	and pull all relevant pieces from the provided doc to support their titles. 
-	3. The notes including titles and contents should use the original 
-	language of the provided doc. 
-	4. Only keep the most informative notes. Combine related notes into one note. \n ${note}`;
+	1. The titles of the notes should be short phrases which can be distinguishable with explicit subject matters, and holistically present the main logic structure of the provided doc. 
+	2. The contents of the notes should summarize the data, facts or insights, and quote all relevant pieces from the original doc as supporting. When quoting the original works, use Markdown's blockquotes.
+	3. Include the author and original source of each piece if available.
+	4. Include relevant images (use Markdown to include the images).
+	5. The notes including titles and contents should use the original language of the provided doc. 
+	6. Notes should be information rich. Only keep the most informative notes. Combine related notes into one note. \n ${note}`;
 	const response = await fetch("https://api.openai.com/v1/chat/completions", {
 		method: "POST",
 		headers: {
@@ -28,7 +26,7 @@ export const GenerateCards = async (
 					content: prompt,
 				},
 			],
-			temperature: 0.5,
+			temperature: 0,
 		}),
 	});
 

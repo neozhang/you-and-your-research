@@ -21,4 +21,8 @@ to
 -   [x] Add loading animation
 -   [x] Fix the backlink issue in saving the url property of knowledge cards
 -   [x] Improve the look and feel: icons and card design
--   [ ] Improve the prompt for GenerateCards
+-   [x] Improve the prompt for GenerateCards
+-   [ ] Add a model selector next to Generate Cards button
+-   [ ] ISSUE: The DEFAULT_SETTING var always revert back to gpt-3.5-turbo
+-   [ ] Add preview function to cards
+-   [ ] ISSUE: new extraction should clear all previously generated cards
