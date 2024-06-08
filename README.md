@@ -20,4 +20,4 @@ to
 -   [ ] Improve the prompt for GenerateCards
 -   [x] Bring your own API key
 -   [x] Add loading animation
--   [ ] Fix the backlink issue in saving the url property of knowledge cards
+-   [x] Fix the backlink issue in saving the url property of knowledge cards

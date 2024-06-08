@@ -1,7 +1,7 @@
 import React from "react";
 import { useApp } from "../hooks";
-import generateCards from "../utils/GenerateCards";
-import { saveNote } from "../utils/SaveNote";
+import GenerateCards from "../utils/generateCards";
+import SaveNote from "../utils/saveNote";
 
 export const NoteExtractor = ({
 	openAIAPIKey,
@@ -82,7 +82,7 @@ export const NoteExtractor = ({
 						<button
 							className="btn btn-primary"
 							onClick={() =>
-								saveNote({ title, content, url }, vault)
+								SaveNote({ title, content, url }, vault)
 							}
 						>
 							Save
@@ -92,7 +92,7 @@ export const NoteExtractor = ({
 							onClick={async () => {
 								setIsGenerating(true);
 								try {
-									const newCards = await generateCards(
+									const newCards = await GenerateCards(
 										content,
 										openAIAPIKey,
 										openAIModel
@@ -147,7 +147,7 @@ export const NoteExtractor = ({
 									<button
 										className="btn btn-secondary"
 										onClick={() =>
-											saveNote(
+											SaveNote(
 												{
 													title: card.title,
 													content: card.content,

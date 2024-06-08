@@ -1,4 +1,4 @@
-export const generateCards = async (
+export const GenerateCards = async (
 	note: string,
 	openAIAPIKey: string,
 	openAIModel: string
@@ -43,4 +43,4 @@ export const generateCards = async (
 	return data.choices[0].message.content;
 };
 
-export default generateCards;
+export default GenerateCards;

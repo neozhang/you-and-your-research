@@ -1,12 +1,14 @@
+import { TFile } from "obsidian";
+import { AddProperties } from "./addProperties";
+
 interface Note {
 	title: string;
 	content: string;
 	url: string;
 }
 
-export const saveNote = (note: Note, vault: any) => {
+export const SaveNote = (note: Note, vault: any) => {
 	console.log("Notes saved:", note);
-	// Additional logic to handle saved notes
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
 	let counter = 1;
@@ -15,8 +17,11 @@ export const saveNote = (note: Note, vault: any) => {
 			fileName = `${note.title} - ${counter}.md`;
 			counter++;
 		}
-		const contentWithFrontmatter = `---\nurl: ${note.url}\n---\n${cleanedContent}`;
-		await vault.create(fileName, contentWithFrontmatter);
+		await vault.create(fileName, cleanedContent);
+		const file = await vault.getAbstractFileByPath(fileName);
+		if (file instanceof TFile) {
+			await AddProperties(vault, file, { url: note.url });
+		}
 	};
 	checkAndCreateFile();
 };
@@ -26,8 +31,8 @@ const cleanupJinaReaderContent = (content: string) => {
 		.replace(/^\d+\.\s+(#+\s*.+)/gm, "$1")
 		.replace(/^(.+)\n=+/gm, "# $1")
 		.replace(/^(.+)\n-+/gm, "## $1")
-		.replace(/^\s+/gm, ""); // Remove whitespace at the beginning of paragraphs
+		.replace(/^\s+/gm, "");
 	return cleanedContent;
 };
 
-export default saveNote;
+export default SaveNote;
