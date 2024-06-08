@@ -204,16 +204,11 @@ export const NoteExtractor = ({
 							<div>
 								<div className="card-title">{card.title}</div>
 								<div
-									className="card-content"
-									style={{
-										display: "-webkit-box",
-										WebkitLineClamp:
-											expandedCard === index
-												? "initial"
-												: "3", // Show full content or collapse to 3 lines
-										WebkitBoxOrient: "vertical",
-										overflow: "hidden",
-									}}
+									className={`card-content ${
+										expandedCard === index
+											? "card-full"
+											: ""
+									}`}
 								>
 									{card.content}
 								</div>

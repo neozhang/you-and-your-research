@@ -53,6 +53,10 @@ If your plugin does not need CSS, delete this file.
 	gap: var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	background-color: var(--background-secondary);
+	cursor: pointer;
+	:hover {
+		border-color: var(--background-modifier-border-hover);
+	}
 }
 
 .card-warning {
@@ -79,7 +83,7 @@ If your plugin does not need CSS, delete this file.
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
-	-webkit-line-clamp: 3;
+	-webkit-line-clamp: 5;
 	-webkit-box-orient: vertical;
 	color: var(--text-muted);
 	margin-bottom: var(--size-4-2);
@@ -87,6 +91,11 @@ If your plugin does not need CSS, delete this file.
 
 .card-secondary > div > .card-content {
 	margin-bottom: 0;
+	-webkit-line-clamp: 3;
+}
+
+.card-full {
+	-webkit-line-clamp: initial !important;
 }
 
 .card-footer {
