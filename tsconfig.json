@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
+		"paths": { "*": ["src/*"] },
 		"inlineSourceMap": true,
 		"inlineSources": true,
 		"module": "ESNext",
@@ -15,5 +16,5 @@
 		"lib": ["DOM", "ES5", "ES6", "ES7"],
 		"allowSyntheticDefaultImports": true
 	},
-	"include": ["**/*.ts", "**/*.tsx", "src/main.tsx"]
+	"include": ["src", "**/*.ts", "**/*.tsx", "src/main.tsx"]
 }
