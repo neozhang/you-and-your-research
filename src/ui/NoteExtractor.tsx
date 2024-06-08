@@ -25,13 +25,16 @@ export const NoteExtractor = ({
 	openAIAPIKey: string;
 	openAIModel: string;
 }) => {
+	const app = useApp() as any;
+	const vault = app?.vault;
+	const setting = app?.setting;
+
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
 	const [cards, setCards] = React.useState<Card[]>([]);
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
-	const { vault, setting } = useApp();
 	const [saved, setSaved] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
 

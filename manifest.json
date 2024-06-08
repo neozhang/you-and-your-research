@@ -1,9 +1,9 @@
 {
 	"id": "note-extractor",
 	"name": "Note Extractor",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"minAppVersion": "0.15.0",
-	"description": "Extract notes from the Web, save them in your Obsidian Vault and generate knowledge cards from them.",
+	"description": "Extract notes from the Web, save them in your Vault and generate notes.",
 	"author": "Obsidian",
 	"authorUrl": "https://pt.plus",
 	"fundingUrl": "https://pt.plus",
