@@ -3,7 +3,7 @@ import React from "react";
 import { createRoot, Root } from "react-dom/client";
 import { AppContext } from "./context";
 import { NoteExtractorSettingTab } from "./ui/settings";
-import NoteExtractor from "./ui/NoteExtractor";
+import NoteExtractor from "./ui/noteExtractor";
 
 const VIEW_TYPE = "react-view";
 
