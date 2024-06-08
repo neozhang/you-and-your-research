@@ -22,7 +22,6 @@ class MyReactView extends ItemView {
 	private plugin: NoteExtractorPlugin;
 
 	constructor(leaf: WorkspaceLeaf, plugin: NoteExtractorPlugin) {
-		// Modify this line
 		super(leaf);
 		this.plugin = plugin;
 	}
@@ -36,7 +35,7 @@ class MyReactView extends ItemView {
 	}
 
 	getIcon(): string {
-		return "layers-3";
+		return "sparkles";
 	}
 
 	async onOpen(): Promise<void> {

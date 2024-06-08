@@ -1,4 +1,5 @@
 import React from "react";
+import { SquarePlus, Tornado, ArrowRightFromLine, Check } from "lucide-react";
 import { useApp } from "../hooks";
 import GenerateCards from "../utils/generateCards";
 import SaveNote from "../utils/saveNote";
@@ -40,6 +41,24 @@ export const NoteExtractor = ({
 		}
 	};
 
+	// Update the card's saved status and trigger a re-render
+	const handleSaveCard = async (index: number) => {
+		const newCards = [...cards];
+		const card = newCards[index];
+		if (card) {
+			await SaveNote(
+				{
+					title: card.title,
+					content: card.content,
+					url: card.url,
+				},
+				vault
+			);
+			card.saved = true;
+			setCards(newCards); // This will update the state and re-render the component
+		}
+	};
+
 	return (
 		<>
 			<div className="topbar">
@@ -66,7 +85,7 @@ export const NoteExtractor = ({
 					className="btn btn-primary"
 					disabled={isExtracting}
 				>
-					Extract
+					<ArrowRightFromLine className="icon" strokeWidth={1} />
 				</button>
 			</div>
 			{isExtracting && (
@@ -85,7 +104,8 @@ export const NoteExtractor = ({
 								SaveNote({ title, content, url }, vault)
 							}
 						>
-							Save
+							<SquarePlus className="icon" strokeWidth={1} />
+							<span>Save</span>
 						</button>
 						<button
 							className="btn btn-secondary"
@@ -121,7 +141,8 @@ export const NoteExtractor = ({
 							}}
 							disabled={isGenerating}
 						>
-							Generate Cards
+							<Tornado className="icon" strokeWidth={1} />{" "}
+							<span>Generate Cards</span>
 						</button>
 					</div>
 				</div>
@@ -140,25 +161,41 @@ export const NoteExtractor = ({
 								card.id === -1 && "card-warning"
 							}`}
 						>
-							<div className="card-title">{card.title}</div>
-							<div className="card-content">{card.content}</div>
+							<div>
+								<div className="card-title">{card.title}</div>
+								<div className="card-content">
+									{card.content}
+								</div>
+							</div>
 							{card.id !== -1 && (
 								<div className="card-footer">
-									<button
-										className="btn btn-secondary"
-										onClick={() =>
-											SaveNote(
-												{
-													title: card.title,
-													content: card.content,
-													url: card.url,
-												},
-												vault
-											)
-										}
-									>
-										Save
-									</button>
+									{card.saved ? (
+										<div
+											className="btn btn-success"
+											style={{ pointerEvents: "none" }}
+										>
+											<Check
+												className="icon"
+												color="var(--color-green)"
+												strokeWidth={1}
+											/>
+										</div>
+									) : (
+										<button
+											className="btn btn-secondary"
+											onClick={() =>
+												handleSaveCard(index)
+											}
+										>
+											<SquarePlus
+												className="icon"
+												strokeWidth={1}
+												onClick={() =>
+													handleSaveCard(index)
+												}
+											/>
+										</button>
+									)}
 								</div>
 							)}
 						</li>

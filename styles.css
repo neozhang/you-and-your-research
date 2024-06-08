@@ -14,18 +14,21 @@ If your plugin does not need CSS, delete this file.
 
 .topbar {
 	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	gap: var(--size-4-2);
 	margin-bottom: var(--size-4-2);
 	background-color: var(--background-secondary);
 }
 
-.topbar .searchbox {
+.topbar > .searchbox {
 	border: 1px solid var(--background-modifier-border);
 	border-radius: var(--radius-s);
 	flex-grow: 1;
-	margin-right: var(--size-4-2);
 }
 
-.topbar .btn {
+.topbar > .btn {
 	margin: 0;
 }
 
@@ -42,6 +45,12 @@ If your plugin does not need CSS, delete this file.
 }
 
 .card-secondary {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	flex-grow: 1;
+	gap: var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	background-color: var(--background-secondary);
 }
@@ -53,11 +62,15 @@ If your plugin does not need CSS, delete this file.
 
 .card-title {
 	font-size: var(--font-ui-medium);
-	font-weight: bold;
+	font-weight: var(--font-bold);
 	color: var(--text-normal);
 	text-align: left;
 	margin-bottom: var(--size-4-2);
 	line-height: normal;
+}
+
+.card-secondary > .card-title {
+	font-weight: var(--font-semi-bold);
 }
 
 .card-content {
@@ -72,17 +85,27 @@ If your plugin does not need CSS, delete this file.
 	margin-bottom: var(--size-4-2);
 }
 
+.card-secondary > div > .card-content {
+	margin-bottom: 0;
+}
+
 .card-footer {
 	display: flex;
 	justify-content: flex-start;
+	align-items: center;
+	gap: var(--size-4-2);
 }
 
 .btn {
-	padding: var(--size-4-2) var(--size-4-4);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: var(--size-2-2);
+	padding: var(--size-4-2) var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	color: var(--text-normal);
 	cursor: pointer;
-	margin-right: var(--size-4-2);
 	border-radius: var(--radius-s);
 	box-shadow: none !important;
 }
@@ -95,4 +118,15 @@ If your plugin does not need CSS, delete this file.
 .btn-secondary {
 	background-color: var(--background-secondary);
 	color: var(--text-normal);
+}
+
+.icon {
+	width: var(--icon-m);
+	height: var(--icon-m);
+}
+
+.btn > .icon {
+	color: var(--icon-color);
+	width: var(--icon-s);
+	height: var(--icon-s);
 }
