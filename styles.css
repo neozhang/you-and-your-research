@@ -141,7 +141,16 @@ If your plugin does not need CSS, delete this file.
 }
 
 .model-selector {
-	color: var(--text-faint);
 	font-size: var(--font-ui-smaller);
 	font-weight: var(--font-semi-bold);
+	color: var(--text-faint);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	cursor: pointer;
+}
+
+.model-selector > .icon {
+	width: var(--icon-xs);
+	height: var(--icon-xs);
 }

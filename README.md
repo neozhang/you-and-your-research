@@ -27,4 +27,5 @@ to
 -   [x] Add preview function to cards
 -   [x] ISSUE: new extraction should clear all previously generated cards
 -   [x] ISSUE: Setting tab default model should reflect the current model in use
+-   [ ] Add a button to insert a card to current file
 -   [ ] FUTRE: Card preview in Markdown

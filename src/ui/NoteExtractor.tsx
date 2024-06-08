@@ -1,5 +1,11 @@
 import React from "react";
-import { SquarePlus, Tornado, CloudDownload, Check } from "lucide-react";
+import {
+	SquarePlus,
+	Tornado,
+	CloudDownload,
+	Check,
+	ChevronRight,
+} from "lucide-react";
 import { useApp } from "../hooks";
 import GenerateCards from "../utils/generateCards";
 import SaveNote from "../utils/saveNote";
@@ -25,7 +31,7 @@ export const NoteExtractor = ({
 	const [cards, setCards] = React.useState<Card[]>([]);
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
-	const { vault } = useApp() ?? {};
+	const { vault, setting } = useApp();
 	const [saved, setSaved] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
 
@@ -176,8 +182,15 @@ export const NoteExtractor = ({
 							<Tornado className="icon" strokeWidth={1} />{" "}
 							<span>Generate Cards</span>
 						</button>
-						<div className="model-selector">
-							<span className="model-name">{openAIModel}</span>
+						<div
+							className="model-selector"
+							onClick={() => {
+								setting.open();
+								setting.openTabById("note-extractor");
+							}}
+						>
+							<span>{openAIModel}</span>
+							<ChevronRight className="icon" strokeWidth={1} />
 						</div>
 					</div>
 				</div>
