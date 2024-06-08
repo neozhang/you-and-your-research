@@ -130,3 +130,9 @@ If your plugin does not need CSS, delete this file.
 	width: var(--icon-s);
 	height: var(--icon-s);
 }
+
+.model-selector {
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semi-bold);
+}

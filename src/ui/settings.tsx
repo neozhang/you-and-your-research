@@ -26,7 +26,7 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 						apiKey = value;
 						await this.plugin.saveSettings();
 					});
-				apiKey = text.getValue();
+				apiKey = this.plugin.settings.openAIAPIKey;
 			});
 
 		new Setting(containerEl)
@@ -38,12 +38,13 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 						"gpt-3.5-turbo": "gpt-3.5-turbo",
 						"gpt-4o": "gpt-4o",
 					})
+					.setValue(this.plugin.settings.openAIModel)
 					.onChange(async (value) => {
 						this.plugin.settings.openAIModel = value;
 						model = value;
 						await this.plugin.saveSettings();
 					});
-				model = dropdown.getValue();
+				model = this.plugin.settings.openAIModel;
 			});
 
 		new Setting(containerEl).addButton((button) =>

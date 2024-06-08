@@ -27,6 +27,7 @@ export const NoteExtractor = ({
 	const [isGenerating, setIsGenerating] = React.useState(false);
 	const { vault } = useApp() ?? {};
 	const [saved, setSaved] = React.useState(false);
+	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
 
 	// Use Jina AI to extract texts from given URL
 	const jinaAPI = "https://r.jina.ai/";
@@ -83,19 +84,21 @@ export const NoteExtractor = ({
 					onChange={(e) => setUrl(e.target.value)}
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
+							setCards([]); // Initialize cards state
 							extractNote(url || "https://example.com");
 						}
 					}}
 					className="searchbox"
 				/>
 				<button
-					onClick={() =>
+					onClick={() => {
+						setCards([]); // Initialize cards state
 						extractNote(url || "https://example.com").finally(
 							() => {
 								setIsExtracting(false);
 							}
-						)
-					}
+						);
+					}}
 					className="btn btn-primary"
 					disabled={isExtracting}
 				>
@@ -173,6 +176,9 @@ export const NoteExtractor = ({
 							<Tornado className="icon" strokeWidth={1} />{" "}
 							<span>Generate Cards</span>
 						</button>
+						<div className="model-selector">
+							<span className="model-name">{openAIModel}</span>
+						</div>
 					</div>
 				</div>
 			)}
@@ -189,10 +195,26 @@ export const NoteExtractor = ({
 							className={`card card-secondary ${
 								card.id === -1 && "card-warning"
 							}`}
+							onClick={() => {
+								setExpandedCard(
+									expandedCard === index ? null : index
+								); // Toggle or set the expanded card
+							}}
 						>
 							<div>
 								<div className="card-title">{card.title}</div>
-								<div className="card-content">
+								<div
+									className="card-content"
+									style={{
+										display: "-webkit-box",
+										WebkitLineClamp:
+											expandedCard === index
+												? "initial"
+												: "3", // Show full content or collapse to 3 lines
+										WebkitBoxOrient: "vertical",
+										overflow: "hidden",
+									}}
+								>
 									{card.content}
 								</div>
 							</div>
@@ -212,16 +234,14 @@ export const NoteExtractor = ({
 									) : (
 										<button
 											className="btn btn-secondary"
-											onClick={() =>
-												handleSaveCard(index)
-											}
+											onClick={(e) => {
+												e.stopPropagation(); // Prevents the click event from bubbling up to the li element
+												handleSaveCard(index);
+											}}
 										>
 											<SquarePlus
 												className="icon"
 												strokeWidth={1}
-												onClick={() =>
-													handleSaveCard(index)
-												}
 											/>
 										</button>
 									)}
