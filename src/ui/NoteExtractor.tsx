@@ -1,8 +1,16 @@
 import React from "react";
-import { SquarePlus, Tornado, ArrowRightFromLine, Check } from "lucide-react";
+import { SquarePlus, Tornado, CloudDownload, Check } from "lucide-react";
 import { useApp } from "../hooks";
 import GenerateCards from "../utils/generateCards";
 import SaveNote from "../utils/saveNote";
+
+interface Card {
+	id: number;
+	title: string;
+	content: string;
+	url: string;
+	saved?: boolean;
+}
 
 export const NoteExtractor = ({
 	openAIAPIKey,
@@ -14,10 +22,11 @@ export const NoteExtractor = ({
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
-	const [cards, setCards] = React.useState([]);
+	const [cards, setCards] = React.useState<Card[]>([]);
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
 	const { vault } = useApp() ?? {};
+	const [saved, setSaved] = React.useState(false);
 
 	// Use Jina AI to extract texts from given URL
 	const jinaAPI = "https://r.jina.ai/";
@@ -59,6 +68,11 @@ export const NoteExtractor = ({
 		}
 	};
 
+	const handleSave = async () => {
+		await SaveNote({ title, content, url }, vault);
+		setSaved(true);
+	};
+
 	return (
 		<>
 			<div className="topbar">
@@ -85,7 +99,7 @@ export const NoteExtractor = ({
 					className="btn btn-primary"
 					disabled={isExtracting}
 				>
-					<ArrowRightFromLine className="icon" strokeWidth={1} />
+					<CloudDownload className="icon" strokeWidth={1} />
 				</button>
 			</div>
 			{isExtracting && (
@@ -100,12 +114,27 @@ export const NoteExtractor = ({
 					<div className="card-footer">
 						<button
 							className="btn btn-primary"
-							onClick={() =>
-								SaveNote({ title, content, url }, vault)
-							}
+							onClick={handleSave}
+							style={{ pointerEvents: saved ? "none" : "auto" }}
 						>
-							<SquarePlus className="icon" strokeWidth={1} />
-							<span>Save</span>
+							{saved ? (
+								<>
+									<Check
+										className="icon"
+										color="green"
+										strokeWidth={1}
+									/>
+									<span>Saved</span>
+								</>
+							) : (
+								<>
+									<SquarePlus
+										className="icon"
+										strokeWidth={1}
+									/>
+									<span>Save</span>
+								</>
+							)}
 						</button>
 						<button
 							className="btn btn-secondary"
