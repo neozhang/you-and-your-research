@@ -1,7 +1,7 @@
 {
 	"id": "note-extractor",
 	"name": "Note Extractor",
-	"version": "0.9.2.3",
+	"version": "0.9.2.4",
 	"minAppVersion": "0.15.0",
 	"description": "Extract notes from the Web, save them in your Vault and generate notes.",
 	"author": "Obsidian",
