@@ -1,5 +1,5 @@
 import { TFile } from "obsidian";
-import { AddProperties } from "./tmpaddProperties";
+import { AddProperties } from "./addProperties";
 
 interface Note {
 	title: string;
