@@ -7,7 +7,7 @@ interface Note {
 	url: string;
 }
 
-export const SaveNote = (note: Note, vault: any) => {
+export const saveNote = (note: Note, vault: any) => {
 	console.log("Notes saved:", note);
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
@@ -38,4 +38,4 @@ const cleanupJinaReaderContent = (content: string) => {
 	return cleanedContent;
 };
 
-export default SaveNote;
+export default saveNote;

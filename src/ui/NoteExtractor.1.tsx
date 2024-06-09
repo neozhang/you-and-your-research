@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
 	SquarePlus,
 	Tornado,
@@ -12,14 +12,7 @@ import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
 import insertCard from "../utils/insertCard";
 import { MarkdownView } from "obsidian";
-
-interface Card {
-	id: number;
-	title: string;
-	content: string;
-	url: string;
-	saved?: boolean;
-}
+import { Card } from "./noteExtractor";
 
 export const NoteExtractor = ({
 	openAIAPIKey,
@@ -31,37 +24,9 @@ export const NoteExtractor = ({
 	const app = useApp() as any;
 	const vault = app?.vault;
 	const setting = app?.setting;
-	const [activeEditor, setActiveEditor] = useState<any>(null);
-	const [cursorPosition, setCursorPosition] = useState<any>(null);
-
-	useEffect(() => {
-		const updateActiveEditor = () => {
-			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
-			if (view) {
-				setActiveEditor(view.editor);
-				setCursorPosition(view.editor.getCursor());
-			}
-		};
-
-		const handleActiveLeafChange = () => {
-			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
-			if (view) {
-				console.log(view);
-				updateActiveEditor();
-			}
-		};
-
-		// Initial check
-		updateActiveEditor();
-
-		// Listen for active leaf changes
-		app?.workspace?.on("active-leaf-change", handleActiveLeafChange);
-
-		// Cleanup function to remove the event listener if the component unmounts
-		return () => {
-			app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
-		};
-	}, [app]);
+	const editor = app?.workspace?.onLayoutReady(() => {
+		return app?.workspace?.getActiveViewOfType(MarkdownView);
+	});
 
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
@@ -192,6 +157,7 @@ export const NoteExtractor = ({
 										openAIAPIKey,
 										openAIModel
 									);
+									console.log(newCards, typeof newCards);
 									const cleanNewCards = newCards
 										.replace(/```json/g, "")
 										.replace(/```/g, "")
@@ -278,17 +244,7 @@ export const NoteExtractor = ({
 										<button
 											className="btn btn-secondary"
 											onClick={() => {
-												if (activeEditor) {
-													insertCard(
-														activeEditor,
-														card,
-														cursorPosition
-													);
-												} else {
-													console.error(
-														"No active editor found to insert the card into."
-													);
-												}
+												insertCard(editor, card);
 											}}
 										>
 											<BetweenHorizontalEnd
@@ -328,5 +284,3 @@ export const NoteExtractor = ({
 		</>
 	);
 };
-
-export default NoteExtractor;

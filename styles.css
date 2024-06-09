@@ -101,7 +101,15 @@ If your plugin does not need CSS, delete this file.
 .card-footer {
 	display: flex;
 	justify-content: flex-start;
-	align-items: center;
+	align-self: flex-start;
+	gap: var(--size-4-2);
+}
+
+.card-sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: top;
 	gap: var(--size-4-2);
 }
 
