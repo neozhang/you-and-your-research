@@ -325,6 +325,7 @@ export const NoteExtractor = ({
 									</div>
 								)}
 								<div
+									className="card-main"
 									onClick={() => {
 										setExpandedCard(
 											expandedCard === index
