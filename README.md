@@ -28,6 +28,8 @@
 -   [x] Gen Cards text overflow issue (horizontal resizing)
 -   [ ] Model selector not updating after change
 -   [x] New extraction will not update the Saved status
+-   [ ] Callout formatting issues
+-   [ ] Set cursor after the inserted content @ InsertCard
 
 ## Future
 

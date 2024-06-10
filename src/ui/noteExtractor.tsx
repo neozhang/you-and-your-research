@@ -9,10 +9,11 @@ import {
 	Settings,
 } from "lucide-react";
 import { useApp } from "../hooks";
+import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
 import insertCard from "../utils/insertCard";
-import { MarkdownView } from "obsidian";
+import extractDoc from "../utils/extractDoc";
 
 interface Card {
 	id: number;
@@ -66,28 +67,16 @@ export const NoteExtractor = ({
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
 	const [saved, setSaved] = React.useState(false);
+	const [isLocal, setIsLocal] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
 
-	// Use Jina AI to extract texts from given URL
-	const jinaAPI = "https://r.jina.ai/";
 	const extractNote = async (url: string) => {
-		try {
-			setIsExtracting(true);
-			const response = await fetch(jinaAPI + url, {
-				method: "GET",
-				headers: {
-					Accept: "application/json",
-				},
-			});
-			const data = await response.json();
-			setContent(data.data.content);
-			setTitle(data.data.title.replace(/[\\/:*?"<>|]/g, "_"));
-		} catch (error) {
-			console.error("Failed to fetch data", error);
-			throw new Error("Failed to fetch data");
-		} finally {
-			setIsExtracting(false);
-		}
+		setIsExtracting(true);
+		const doc = await extractDoc(url, vault);
+		setIsLocal(doc.isLocal);
+		setTitle(doc.title);
+		setContent(doc.content);
+		setIsExtracting(false);
 	};
 
 	// Update the card's saved status and trigger a re-render
@@ -118,7 +107,7 @@ export const NoteExtractor = ({
 			<div className="topbar">
 				<input
 					type="text"
-					placeholder="https://example.com"
+					placeholder="https://example.com or [[Note Title]]"
 					value={url}
 					onChange={(e) => setUrl(e.target.value)}
 					onKeyDown={(e) => {
@@ -160,10 +149,13 @@ export const NoteExtractor = ({
 						<button
 							className="btn btn-primary"
 							onClick={handleSave}
-							style={{ pointerEvents: saved ? "none" : "auto" }}
+							style={{
+								pointerEvents:
+									saved || isLocal ? "none" : "auto",
+							}}
 							title="Save note"
 						>
-							{saved ? (
+							{saved || isLocal ? (
 								<>
 									<Check
 										className="icon"
