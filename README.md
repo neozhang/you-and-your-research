@@ -26,13 +26,13 @@
 ## Issues
 
 -   [x] Gen Cards text overflow issue (horizontal resizing)
--   [ ] Model selector not updating after change
 -   [x] New extraction will not update the Saved status
+-   [ ] Model selector not updating after change
 -   [ ] Callout formatting issues
 -   [ ] Set cursor after the inserted content @ InsertCard
 -   [ ] Combine handleSave and handleSaveCard
 
-## Future
+## Future (1.0+)
 
 -   [ ] Card preview in Markdown
 -   [ ] Integration with Readwise

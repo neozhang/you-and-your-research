@@ -7,8 +7,8 @@ export const generateCards = async (
 	const prompt = `Generate notes from the following doc in JSON with the following format: 
 	[{id: id, title: "title", content: "content"}]. Follow the instructions below:
 	1. The titles of the notes should be short phrases which can be distinguishable with explicit subject matters, and holistically present the main logic structure of the provided doc. 
-	2. The contents of the notes should summarize the data, facts or insights, and quote all relevant pieces from the original doc as supporting. When quoting the original works, use Markdown's blockquotes.
-	3. Include the author and original source of each piece if available.
+	2. The contents of the notes should start with a summary of the data, facts or insights from the original doc, followed by quotes of all relevant pieces from the original doc as supporting. When quoting the original works, use Markdown's blockquotes.
+	3. Include the author and original source of each quote if available.
 	4. Include relevant images (use Markdown to include the images).
 	5. The notes including titles and contents should use the original language of the provided doc. 
 	6. Notes should be information rich. Only keep the most informative notes. Combine related notes into one note. \n ${note}`;
