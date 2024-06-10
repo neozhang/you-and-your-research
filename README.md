@@ -31,6 +31,8 @@ to
 -   [x] Add tooltips to buttons
 -   [x] Add a button to go to setting tab on the warning card
 -   [x] 1.0: After inserting the note to editor, switch focus to editor and scroll to the insert position
--   [x] 1.0: Import local notes
+-   [ ] 1.0: Import local notes
 -   [x] ISSUE: Gen Cards text overflow issue (horizontal resizing)
 -   [ ] FUTRE: Card preview in Markdown
+-   [ ] ISSUE: model selector not updating after change
+-   [x] ISSUE: new extraction will not update the Saved status
