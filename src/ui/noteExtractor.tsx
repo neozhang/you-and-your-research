@@ -6,6 +6,7 @@ import {
 	Check,
 	ChevronRight,
 	BetweenHorizontalEnd,
+	Settings,
 } from "lucide-react";
 import { useApp } from "../hooks";
 import generateCards from "../utils/generateCards";
@@ -250,7 +251,7 @@ export const NoteExtractor = ({
 							}`}
 						>
 							<>
-								{card.id !== -1 && (
+								{card.id !== -1 ? (
 									<div className="card-sidebar">
 										{card.saved ? (
 											<button
@@ -299,6 +300,24 @@ export const NoteExtractor = ({
 											title="Insert card into editor"
 										>
 											<BetweenHorizontalEnd
+												className="icon"
+												strokeWidth={1}
+											/>
+										</button>
+									</div>
+								) : (
+									<div className="card-sidebar">
+										<button
+											className="btn btn-secondary"
+											onClick={() => {
+												setting.open();
+												setting.openTabById(
+													"note-extractor"
+												);
+											}}
+											title="Open settings"
+										>
+											<Settings
 												className="icon"
 												strokeWidth={1}
 											/>
