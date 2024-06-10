@@ -6,8 +6,8 @@
 // }
 
 export const insertCard = (editor: any, card: any, cursor: any) => {
-	const calloutText = `\n> [!${card.title}] \n> ${card.content}`;
-	editor.replaceRange(calloutText, cursor);
+	const text = `\n${card.title}\n\n${card.content}\n`;
+	editor.replaceRange(text, cursor);
 	editor.focus();
 	editor.scrollIntoView({ from: cursor, to: cursor }, true);
 };

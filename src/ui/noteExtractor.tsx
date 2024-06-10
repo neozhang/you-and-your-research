@@ -4,9 +4,9 @@ import {
 	Tornado,
 	Play,
 	Check,
-	ChevronRight,
 	BetweenHorizontalEnd,
 	Settings,
+	Copy,
 } from "lucide-react";
 import { usePlugin } from "../hooks";
 import { MarkdownView } from "obsidian";
@@ -228,6 +228,7 @@ export const NoteExtractor = () => {
 							className="btn btn-secondary"
 							onClick={async () => {
 								setIsGenerating(true);
+								console.log("Generating with:", settings);
 								try {
 									const newCards = await generateCards(
 										content,
@@ -340,6 +341,30 @@ export const NoteExtractor = () => {
 											title="Insert card into editor"
 										>
 											<BetweenHorizontalEnd
+												className="icon"
+												strokeWidth={1}
+											/>
+										</button>
+										<button
+											className="btn btn-secondary"
+											onClick={() => {
+												navigator.clipboard
+													.writeText(card.content)
+													.then(() => {
+														console.log(
+															"Card content copied to clipboard"
+														);
+													})
+													.catch((err) => {
+														console.error(
+															"Failed to copy card content: ",
+															err
+														);
+													});
+											}}
+											title="Copy card to clipboard"
+										>
+											<Copy
 												className="icon"
 												strokeWidth={1}
 											/>
