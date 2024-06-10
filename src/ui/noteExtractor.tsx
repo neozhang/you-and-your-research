@@ -8,7 +8,7 @@ import {
 	BetweenHorizontalEnd,
 	Settings,
 } from "lucide-react";
-import { useApp } from "../hooks";
+import { usePlugin } from "../hooks";
 import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
@@ -23,17 +23,13 @@ interface Card {
 	saved?: boolean;
 }
 
-export const NoteExtractor = ({
-	openAIAPIKey,
-	openAIModel,
-}: {
-	openAIAPIKey: string;
-	openAIModel: string;
-}) => {
-	const app = useApp() as any;
-	const vault = app?.vault;
-	const setting = app?.setting;
+export const NoteExtractor = () => {
+	const plugin = usePlugin() as any;
+	const app = plugin?.app;
+	const vault = plugin?.app?.vault;
+	const setting = plugin?.app?.setting;
 
+	const [settings, setSettings] = React.useState(plugin?.settings);
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
 	const [title, setTitle] = React.useState("");
@@ -235,8 +231,8 @@ export const NoteExtractor = ({
 								try {
 									const newCards = await generateCards(
 										content,
-										openAIAPIKey,
-										openAIModel
+										settings.openAIAPIKey,
+										settings.openAIModel
 									);
 									const cleanNewCards = newCards
 										.replace(/```json/g, "")
@@ -273,8 +269,9 @@ export const NoteExtractor = ({
 							}}
 							title="Open API settings"
 						>
-							<span>{openAIModel}</span>
-							<ChevronRight className="icon" strokeWidth={1} />
+							<button className="btn btn-secondary">
+								<Settings className="icon" strokeWidth={1} />
+							</button>
 						</div>
 					</div>
 				</div>

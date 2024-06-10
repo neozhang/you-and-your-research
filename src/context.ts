@@ -1,4 +1,4 @@
 import { createContext } from "react";
-import { App } from "obsidian";
+import { Plugin } from "obsidian";
 
-export const AppContext = createContext<App | undefined>(undefined);
+export const PluginContext = createContext<Plugin | undefined>(undefined);

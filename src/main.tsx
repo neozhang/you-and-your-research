@@ -1,7 +1,7 @@
 import { ItemView, Plugin, WorkspaceLeaf } from "obsidian";
 import React from "react";
 import { createRoot, Root } from "react-dom/client";
-import { AppContext } from "./context";
+import { PluginContext } from "./context";
 import { NoteExtractorSettingTab } from "./ui/settings";
 import NoteExtractor from "./ui/noteExtractor";
 
@@ -43,17 +43,14 @@ class MyReactView extends ItemView {
 		await this.plugin.loadSettings();
 
 		// Create the React component with settings as props
-		this.reactComponent = React.createElement(NoteExtractor, {
-			openAIAPIKey: this.plugin.settings.openAIAPIKey,
-			openAIModel: this.plugin.settings.openAIModel,
-		});
+		this.reactComponent = React.createElement(NoteExtractor);
 
 		// Render the component with the context provider
 		this.root = createRoot(this.containerEl.children[1]);
 		this.root.render(
-			<AppContext.Provider value={this.app}>
+			<PluginContext.Provider value={this.plugin}>
 				{this.reactComponent}
-			</AppContext.Provider>
+			</PluginContext.Provider>
 		);
 	}
 }
