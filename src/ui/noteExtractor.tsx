@@ -144,6 +144,7 @@ export const NoteExtractor = ({
 					}}
 					className="btn btn-primary"
 					disabled={isExtracting}
+					title="Download content from URL"
 				>
 					<CloudDownload className="icon" strokeWidth={1} />
 				</button>
@@ -162,6 +163,7 @@ export const NoteExtractor = ({
 							className="btn btn-primary"
 							onClick={handleSave}
 							style={{ pointerEvents: saved ? "none" : "auto" }}
+							title="Save note"
 						>
 							{saved ? (
 								<>
@@ -214,9 +216,10 @@ export const NoteExtractor = ({
 								}
 							}}
 							disabled={isGenerating}
+							title="Generate notes from the given content"
 						>
 							<Tornado className="icon" strokeWidth={1} />{" "}
-							<span>Generate Cards</span>
+							<span>Generate</span>
 						</button>
 						<div
 							className="model-selector"
@@ -224,6 +227,7 @@ export const NoteExtractor = ({
 								setting.open();
 								setting.openTabById("note-extractor");
 							}}
+							title="Open API settings"
 						>
 							<span>{openAIModel}</span>
 							<ChevronRight className="icon" strokeWidth={1} />
@@ -254,6 +258,7 @@ export const NoteExtractor = ({
 												style={{
 													pointerEvents: "none",
 												}}
+												title="Note saved"
 											>
 												<Check
 													className="icon"
@@ -268,6 +273,7 @@ export const NoteExtractor = ({
 													e.stopPropagation(); // Prevents the click event from bubbling up to the li element
 													handleSaveCard(index);
 												}}
+												title="Save note"
 											>
 												<SquarePlus
 													className="icon"
@@ -290,6 +296,7 @@ export const NoteExtractor = ({
 													);
 												}
 											}}
+											title="Insert card into editor"
 										>
 											<BetweenHorizontalEnd
 												className="icon"

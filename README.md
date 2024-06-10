@@ -28,6 +28,7 @@ to
 -   [x] ISSUE: new extraction should clear all previously generated cards
 -   [x] ISSUE: Setting tab default model should reflect the current model in use
 -   [x] Add a button to insert a card to current file
+-   [x] Add tooltips to buttons
 -   [ ] Import local notes
 -   [ ] ISSUE: Gen Cards text overflow issue (horizontal resizing)
 -   [ ] FUTRE: Card preview in Markdown
