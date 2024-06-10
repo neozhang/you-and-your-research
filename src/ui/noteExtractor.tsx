@@ -39,21 +39,13 @@ export const NoteExtractor = ({
 		const handleActiveLeafChange = () => {
 			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
 			if (view) {
-				// console.log(view.editor.getCursor());
 				setActiveEditor(view.editor);
 				setCursorPosition(view.editor.getCursor());
-				// Listen for changes in the editor
-				// app?.workspace?.on("editor-change", handleChange(view.editor));
 			} else if (activeEditor) {
 				console.log(activeEditor.hasFocus(), activeEditor.getCursor());
 				setCursorPosition(activeEditor.getCursor());
 			}
 		};
-
-		// const handleChange = (editor: any) => {
-		// 	setCursorPosition(editor.getCursor());
-		// 	console.log(editor.getCursor());
-		// };
 
 		// Initial check
 		handleActiveLeafChange();
@@ -64,7 +56,6 @@ export const NoteExtractor = ({
 		// Cleanup function to remove the event listeners if the component unmounts
 		return () => {
 			app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
-			// app?.workspace?.off("editor-change", handleChange);
 		};
 	}, [app, activeEditor]);
 
@@ -133,6 +124,7 @@ export const NoteExtractor = ({
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							setCards([]); // Initialize cards state
+							setSaved(false);
 							extractNote(url || "https://example.com");
 						}
 					}}
@@ -141,6 +133,7 @@ export const NoteExtractor = ({
 				<button
 					onClick={() => {
 						setCards([]); // Initialize cards state
+						setSaved(false);
 						extractNote(url || "https://example.com").finally(
 							() => {
 								setIsExtracting(false);
