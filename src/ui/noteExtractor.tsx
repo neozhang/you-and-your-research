@@ -36,33 +36,37 @@ export const NoteExtractor = ({
 	const [cursorPosition, setCursorPosition] = useState<any>(null);
 
 	useEffect(() => {
-		const updateActiveEditor = () => {
-			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
-			if (view) {
-				setActiveEditor(view.editor);
-				setCursorPosition(view.editor.getCursor());
-			}
-		};
-
 		const handleActiveLeafChange = () => {
 			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
 			if (view) {
-				console.log(view);
-				updateActiveEditor();
+				// console.log(view.editor.getCursor());
+				setActiveEditor(view.editor);
+				setCursorPosition(view.editor.getCursor());
+				// Listen for changes in the editor
+				// app?.workspace?.on("editor-change", handleChange(view.editor));
+			} else if (activeEditor) {
+				console.log(activeEditor.hasFocus(), activeEditor.getCursor());
+				setCursorPosition(activeEditor.getCursor());
 			}
 		};
 
+		// const handleChange = (editor: any) => {
+		// 	setCursorPosition(editor.getCursor());
+		// 	console.log(editor.getCursor());
+		// };
+
 		// Initial check
-		updateActiveEditor();
+		handleActiveLeafChange();
 
 		// Listen for active leaf changes
 		app?.workspace?.on("active-leaf-change", handleActiveLeafChange);
 
-		// Cleanup function to remove the event listener if the component unmounts
+		// Cleanup function to remove the event listeners if the component unmounts
 		return () => {
 			app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
+			// app?.workspace?.off("editor-change", handleChange);
 		};
-	}, [app]);
+	}, [app, activeEditor]);
 
 	const [url, setUrl] = React.useState("");
 	const [content, setContent] = React.useState("");
