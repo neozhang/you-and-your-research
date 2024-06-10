@@ -47,16 +47,12 @@ If your plugin does not need CSS, delete this file.
 .card-secondary {
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
-	align-items: center;
+	align-items: flex-start;
 	flex-grow: 1;
 	gap: var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	background-color: var(--background-secondary);
 	cursor: pointer;
-	:hover {
-		border-color: var(--background-modifier-border-hover);
-	}
 }
 
 .card-warning {
@@ -101,7 +97,6 @@ If your plugin does not need CSS, delete this file.
 .card-footer {
 	display: flex;
 	justify-content: flex-start;
-	align-self: flex-start;
 	gap: var(--size-4-2);
 }
 
@@ -110,7 +105,7 @@ If your plugin does not need CSS, delete this file.
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: top;
-	gap: var(--size-4-2);
+	gap: var(--size-2-2);
 }
 
 .btn {
@@ -125,6 +120,13 @@ If your plugin does not need CSS, delete this file.
 	cursor: pointer;
 	border-radius: var(--radius-s);
 	box-shadow: none !important;
+}
+
+.card-sidebar .btn {
+	width: 24px;
+	height: 24px;
+	padding: var(--size-2-2);
+	border: none;
 }
 
 .btn-primary {

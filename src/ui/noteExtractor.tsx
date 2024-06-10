@@ -238,7 +238,7 @@ export const NoteExtractor = ({
 			)}
 			{isGenerating && (
 				<div className="loading-container">
-					<div className="loading-animation">Generating Cards...</div>
+					<div className="loading-animation">Generating...</div>
 				</div>
 			)}
 			{cards && cards.length > 0 && (
