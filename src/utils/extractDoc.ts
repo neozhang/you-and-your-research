@@ -8,7 +8,8 @@ export const extractDoc = async (url: string, vault: any) => {
 
 const extractLocalDoc = async (url: string, vault: any) => {
 	const docName = url.slice(2, -2);
-	const doc = vault.getAbstractFileByPath(docName + ".md"); // can only access the top level of the vault
+	const doc = await findFileInVault(docName + ".md", vault.getRoot());
+
 	if (doc) {
 		const data = await vault.read(doc);
 		const contentWithoutFrontmatter = data.replace(/---[\s\S]*?---\n/, "");
@@ -20,6 +21,39 @@ const extractLocalDoc = async (url: string, vault: any) => {
 	} else {
 		throw new Error("Local note not found");
 	}
+};
+
+const findFileInVault = async (
+	fileName: string,
+	directory: any
+): Promise<any | null> => {
+	const files = directory.children;
+	for (const file of files) {
+		if (file.children) {
+			const found = await findFileInVault(fileName, file);
+			if (found) return found;
+		} else if (file.name === fileName) {
+			return file;
+		}
+	}
+	return null;
+};
+
+export const getNoteSuggestions = async (query: string, vault: any) => {
+	const suggestions = [];
+	const searchQuery = query.slice(2).toLowerCase(); // Remove the leading [[ and convert to lowercase
+	const files = vault.getFiles();
+
+	for (const file of files) {
+		if (
+			file.name.toLowerCase().includes(searchQuery) &&
+			file.extension === "md"
+		) {
+			suggestions.push(file.name.replace(".md", ""));
+		}
+		if (suggestions.length >= 5) break; // Limit to 5 suggestions
+	}
+	return suggestions;
 };
 
 const extractRemoteDoc = async (url: string) => {

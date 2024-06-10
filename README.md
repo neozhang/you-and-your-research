@@ -21,7 +21,7 @@
 -   [x] Add tooltips to buttons
 -   [x] Add a button to go to setting tab on the warning card
 -   [x] After inserting the note to editor, switch focus to editor and scroll to the insert position
--   [ ] Import local notes
+-   [x] Import local notes
 
 ## Issues
 
@@ -30,6 +30,7 @@
 -   [x] New extraction will not update the Saved status
 -   [ ] Callout formatting issues
 -   [ ] Set cursor after the inserted content @ InsertCard
+-   [ ] Combine handleSave and handleSaveCard
 
 ## Future
 

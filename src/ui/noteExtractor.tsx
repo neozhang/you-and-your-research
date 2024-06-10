@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
 	SquarePlus,
 	Tornado,
-	CloudDownload,
+	Play,
 	Check,
 	ChevronRight,
 	BetweenHorizontalEnd,
@@ -13,7 +13,7 @@ import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
 import insertCard from "../utils/insertCard";
-import extractDoc from "../utils/extractDoc";
+import extractDoc, { getNoteSuggestions } from "../utils/extractDoc";
 
 interface Card {
 	id: number;
@@ -33,6 +33,19 @@ export const NoteExtractor = ({
 	const app = useApp() as any;
 	const vault = app?.vault;
 	const setting = app?.setting;
+
+	const [url, setUrl] = React.useState("");
+	const [content, setContent] = React.useState("");
+	const [title, setTitle] = React.useState("");
+	const [cards, setCards] = React.useState<Card[]>([]);
+	const [isExtracting, setIsExtracting] = React.useState(false);
+	const [isGenerating, setIsGenerating] = React.useState(false);
+	const [saved, setSaved] = React.useState(false);
+	const [isLocal, setIsLocal] = React.useState(false);
+	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
+	const [suggestions, setSuggestions] = React.useState<string[]>([]);
+	const [selectedSuggestionIndex, setSelectedSuggestionIndex] =
+		React.useState<number>(-1);
 	const [activeEditor, setActiveEditor] = useState<any>(null);
 	const [cursorPosition, setCursorPosition] = useState<any>(null);
 
@@ -60,15 +73,39 @@ export const NoteExtractor = ({
 		};
 	}, [app, activeEditor]);
 
-	const [url, setUrl] = React.useState("");
-	const [content, setContent] = React.useState("");
-	const [title, setTitle] = React.useState("");
-	const [cards, setCards] = React.useState<Card[]>([]);
-	const [isExtracting, setIsExtracting] = React.useState(false);
-	const [isGenerating, setIsGenerating] = React.useState(false);
-	const [saved, setSaved] = React.useState(false);
-	const [isLocal, setIsLocal] = React.useState(false);
-	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
+	const handleInputChange = async (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const input = e.target.value;
+		setUrl(input);
+		if (input.startsWith("[[")) {
+			const matches = await getNoteSuggestions(input, vault);
+			setSuggestions(matches);
+			setSelectedSuggestionIndex(-1); // Reset the selected suggestion index
+		} else {
+			setSuggestions([]);
+		}
+	};
+
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (suggestions.length > 0) {
+			if (e.key === "ArrowDown") {
+				e.preventDefault();
+				setSelectedSuggestionIndex((prevIndex) =>
+					prevIndex < suggestions.length - 1 ? prevIndex + 1 : 0
+				);
+			} else if (e.key === "ArrowUp") {
+				e.preventDefault();
+				setSelectedSuggestionIndex((prevIndex) =>
+					prevIndex > 0 ? prevIndex - 1 : suggestions.length - 1
+				);
+			} else if (e.key === "Enter" && selectedSuggestionIndex >= 0) {
+				e.preventDefault();
+				setUrl(`[[${suggestions[selectedSuggestionIndex]}]]`);
+				setSuggestions([]);
+			}
+		}
+	};
 
 	const extractNote = async (url: string) => {
 		setIsExtracting(true);
@@ -84,7 +121,7 @@ export const NoteExtractor = ({
 		const newCards = [...cards];
 		const card = newCards[index];
 		if (card) {
-			await saveNote(
+			saveNote(
 				{
 					title: card.title,
 					content: card.content,
@@ -98,43 +135,60 @@ export const NoteExtractor = ({
 	};
 
 	const handleSave = async () => {
-		await saveNote({ title, content, url }, vault);
+		saveNote({ title, content, url }, vault);
 		setSaved(true);
 	};
 
 	return (
 		<>
 			<div className="topbar">
-				<input
-					type="text"
-					placeholder="https://example.com or [[Note Title]]"
-					value={url}
-					onChange={(e) => setUrl(e.target.value)}
-					onKeyDown={(e) => {
-						if (e.key === "Enter") {
+				<form>
+					<input
+						type="text"
+						placeholder="https://example.com or [[Note Title]]"
+						value={url}
+						onChange={handleInputChange}
+						onKeyDown={handleKeyDown}
+						className="searchbox"
+					/>
+
+					<button
+						onClick={() => {
 							setCards([]); // Initialize cards state
 							setSaved(false);
-							extractNote(url || "https://example.com");
-						}
-					}}
-					className="searchbox"
-				/>
-				<button
-					onClick={() => {
-						setCards([]); // Initialize cards state
-						setSaved(false);
-						extractNote(url || "https://example.com").finally(
-							() => {
-								setIsExtracting(false);
-							}
-						);
-					}}
-					className="btn btn-primary"
-					disabled={isExtracting}
-					title="Download content from URL"
-				>
-					<CloudDownload className="icon" strokeWidth={1} />
-				</button>
+							extractNote(url || "https://example.com").finally(
+								() => {
+									setIsExtracting(false);
+								}
+							);
+						}}
+						className="btn btn-primary"
+						disabled={isExtracting}
+						title="Download content from URL"
+					>
+						<Play className="icon" strokeWidth={1} />
+					</button>
+				</form>
+				{suggestions.length > 0 && (
+					<ul className="suggestions-list">
+						{suggestions.map((suggestion, index) => (
+							<li
+								key={index}
+								className={`suggestion-item ${
+									index === selectedSuggestionIndex
+										? "selected"
+										: ""
+								}`}
+								onClick={() => {
+									setUrl(`[[${suggestion}]]`);
+									setSuggestions([]);
+								}}
+							>
+								{suggestion}
+							</li>
+						))}
+					</ul>
+				)}
 			</div>
 			{isExtracting && (
 				<div className="loading-container">

@@ -14,22 +14,61 @@ If your plugin does not need CSS, delete this file.
 
 .topbar {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: flex-start;
-	align-items: center;
-	gap: var(--size-4-2);
+	align-items: flex-start;
+	gap: var(--size-2-2);
 	margin-bottom: var(--size-4-2);
 	background-color: var(--background-secondary);
+	max-width: 100%;
 }
 
-.topbar > .searchbox {
+.topbar > form {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	border-radius: var(--radius-s);
+	width: 100%;
+}
+
+.topbar > form > .searchbox {
+	border: none;
 	flex-grow: 1;
 }
 
-.topbar > .btn {
+.topbar > form > .searchbox:focus {
+	border: none;
+}
+
+.topbar > form > .btn {
 	margin: 0;
+	border: none;
+}
+
+.topbar > .suggestions-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	background-color: var(--background-primary);
+	overflow-y: auto;
+}
+
+.topbar > .suggestions-list > .suggestion-item {
+	padding: var(--size-4-2);
+	cursor: pointer;
+	font-size: var(--font-ui-small);
+}
+
+.topbar > .suggestions-list > .suggestion-item:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.topbar > .suggestions-list > .suggestion-item.selected {
+	background-color: var(--interactive-hover);
 }
 
 .card {
