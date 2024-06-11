@@ -44,7 +44,7 @@ const findFileInVault = async (
 export const getNoteSuggestions = async (query: string, vault: any) => {
 	const suggestions = [];
 	const searchQuery = query.slice(2).toLowerCase(); // Remove the leading [[ and convert to lowercase
-	const files = vault.getFiles();
+	const files = vault.getMarkdownFiles();
 
 	for (const file of files) {
 		if (

@@ -48,7 +48,7 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Jina AI API")
+			.setName("Jina AI API (Optional)")
 			.setDesc("https://jina.ai/reader#apiform")
 			.addText((text) => {
 				text.setPlaceholder("jina_")

@@ -8,11 +8,15 @@ Research requires intensive information retrieval, usually from long-form materi
 
 Install and enable the plugin from Obsidian's Community Plugins platform.
 
-You will need to bring your own API key for using OpenAI. You can get it from the [OpenAI Dashboard](https://platform.openai.com/account/api-keys). Add it in the plugin settings.
+### Setup
+
+**REQUIRED** You will need to bring your own API key for using OpenAI. You can get it from the [OpenAI Dashboard](https://platform.openai.com/account/api-keys). Add it in the plugin settings.
 
 You can choose gpt-3.5-turbo or gpt-4o as your model of choice.
 
-The plugin also uses Jina AI to extract the content of the web pages you read. You can also bring your own API key for using Jina AI. You can get it from the [Jina website](https://jina.ai/reader/#apiform). Add it in the plugin settings.
+**OPTIONAL** The plugin also uses Jina AI to extract the content of the web pages you read. You can also bring your own API key for using Jina AI. You can get it from the [Jina website](https://jina.ai/reader/#apiform). Add it in the plugin settings.
+
+### Research at Work
 
 You will see the plugin in the right sidebar, with an icon of microscope. Here is what you can do with it:
 
