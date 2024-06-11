@@ -4,14 +4,14 @@ import {
 	Tornado,
 	ChevronRight,
 	Check,
-	// BetweenHorizontalEnd,
+	BookOpen,
 	Settings,
 	Copy,
 } from "lucide-react";
 import { usePlugin } from "../hooks";
 // import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
-import saveNote from "../utils/saveNote";
+import saveNote, { openNote } from "../utils/saveNote";
 // import insertCard from "../utils/insertCard";
 import extractDoc, { getNoteSuggestions } from "../utils/extractDoc";
 
@@ -21,11 +21,12 @@ interface Card {
 	content: string;
 	url: string;
 	saved?: boolean;
+	savedName: string;
 }
 
 export const NoteExtractor = () => {
 	const plugin = usePlugin() as any;
-	const app = plugin?.app;
+	const workspace = plugin?.app?.workspace;
 	const vault = plugin?.app?.vault;
 	const setting = plugin?.app?.setting;
 
@@ -37,6 +38,7 @@ export const NoteExtractor = () => {
 	const [isExtracting, setIsExtracting] = React.useState(false);
 	const [isGenerating, setIsGenerating] = React.useState(false);
 	const [saved, setSaved] = React.useState(false);
+	const [savedDocName, setSavedDocName] = React.useState("");
 	const [isLocal, setIsLocal] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState<number | null>(null);
 	const [suggestions, setSuggestions] = React.useState<string[]>([]);
@@ -107,32 +109,40 @@ export const NoteExtractor = () => {
 		setIsExtracting(true);
 		const doc = await extractDoc(url, apiKey, vault);
 		setIsLocal(doc.isLocal);
+		setSaved(doc.saved);
+		setSavedDocName(doc.savedName);
 		setTitle(doc.title);
 		setContent(doc.content);
 		setIsExtracting(false);
+	};
+
+	const handleSave = async () => {
+		if (saved || isLocal) {
+			openNote(savedDocName, vault, workspace);
+		} else {
+			const f = await saveNote({ title, content, url }, vault);
+			setSavedDocName(f);
+		}
+		setSaved(true);
 	};
 
 	// Update the card's saved status and trigger a re-render
 	const handleSaveCard = async (index: number) => {
 		const newCards = [...cards];
 		const card = newCards[index];
-		if (card) {
-			saveNote(
-				{
-					title: card.title,
-					content: card.content,
-					url: card.url,
-				},
-				vault
-			);
-			card.saved = true;
-			setCards(newCards); // This will update the state and re-render the component
-		}
-	};
 
-	const handleSave = async () => {
-		saveNote({ title, content, url }, vault);
-		setSaved(true);
+		const f = await saveNote(
+			{
+				title: card.title,
+				content: card.content,
+				url: card.url,
+			},
+			vault
+		);
+		console.log(f);
+		newCards[index].savedName = f;
+		newCards[index].saved = true;
+		setCards(newCards); // This will update the state and re-render the component
 	};
 
 	return (
@@ -190,7 +200,9 @@ export const NoteExtractor = () => {
 			</div>
 			{isExtracting && (
 				<div className="loading-container">
-					<div className="loading-animation">Loading...</div>
+					<div className="loading-animation">
+						Loading your document...
+					</div>
 				</div>
 			)}
 			{content && title && (
@@ -201,20 +213,19 @@ export const NoteExtractor = () => {
 						<button
 							className="btn btn-primary"
 							onClick={handleSave}
-							style={{
-								pointerEvents:
-									saved || isLocal ? "none" : "auto",
-							}}
-							title="Save to your vault"
+							title={
+								saved
+									? "Open the saved note"
+									: "Save to your vault"
+							}
 						>
-							{saved || isLocal ? (
+							{saved ? (
 								<>
-									<Check
+									<BookOpen
 										className="icon"
-										color="green"
 										strokeWidth={1}
 									/>
-									<span>Saved</span>
+									<span>Open</span>
 								</>
 							) : (
 								<>
@@ -227,7 +238,7 @@ export const NoteExtractor = () => {
 							)}
 						</button>
 						<button
-							className="btn btn-secondary"
+							className="btn btn-primary"
 							onClick={async () => {
 								setIsGenerating(true);
 								setCards([]);
@@ -238,7 +249,6 @@ export const NoteExtractor = () => {
 										settings.openAIAPIKey,
 										settings.openAIModel
 									);
-									console.log(newCards);
 									newCards.map((card: any) => {
 										return {
 											id: card.id,
@@ -246,6 +256,8 @@ export const NoteExtractor = () => {
 											content: card.content,
 											url:
 												"[[" + (title as string) + "]]",
+											saved: false,
+											savedName: "",
 										};
 									});
 									setCards(newCards);
@@ -317,14 +329,17 @@ export const NoteExtractor = () => {
 										{card.saved ? (
 											<button
 												className="btn btn-success"
-												style={{
-													pointerEvents: "none",
-												}}
-												title="Note saved"
+												title="Open the saved note"
+												onClick={() =>
+													openNote(
+														card.savedName,
+														vault,
+														workspace
+													)
+												}
 											>
-												<Check
+												<BookOpen
 													className="icon"
-													color="var(--color-green)"
 													strokeWidth={1}
 												/>
 											</button>
@@ -332,7 +347,6 @@ export const NoteExtractor = () => {
 											<button
 												className="btn btn-secondary"
 												onClick={(e) => {
-													e.stopPropagation(); // Prevents the click event from bubbling up to the li element
 													handleSaveCard(index);
 												}}
 												title="Save note"

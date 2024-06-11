@@ -1,5 +1,5 @@
 import { TFile } from "obsidian";
-import { AddProperties } from "./addProperties";
+import { addProperties } from "./addProperties";
 
 interface Note {
 	title: string;
@@ -7,23 +7,29 @@ interface Note {
 	url: string;
 }
 
-export const saveNote = (note: Note, vault: any) => {
-	console.log("Notes saved:", note);
+export const saveNote = async (note: Note, vault: any) => {
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
 	let counter = 1;
-	const checkAndCreateFile = async () => {
-		while (await vault.exists(fileName)) {
-			fileName = `${note.title} - ${counter}.md`;
-			counter++;
-		}
-		await vault.create(fileName, cleanedContent);
-		const file = await vault.getAbstractFileByPath(fileName);
-		if (file instanceof TFile) {
-			await AddProperties(vault, file, { url: note.url });
-		}
-	};
-	checkAndCreateFile();
+	while (await vault.exists(fileName)) {
+		fileName = `${note.title} - ${counter}.md`;
+		counter++;
+	}
+	await vault.create(fileName, cleanedContent);
+	const file = await vault.getAbstractFileByPath(fileName);
+	if (file instanceof TFile) {
+		await addProperties(vault, file, { url: note.url });
+	}
+	return fileName;
+};
+
+export const openNote = async (
+	fileName: string,
+	vault: any,
+	workspace: any
+) => {
+	const file = await vault.getAbstractFileByPath(fileName);
+	workspace.getLeaf(true).openFile(file);
 };
 
 const cleanupJinaReaderContent = (content: string) => {

@@ -17,6 +17,8 @@ const extractLocalDoc = async (url: string, vault: any) => {
 			title: docName.replace(/[\\/:*?"<>|]/g, "_"),
 			content: contentWithoutFrontmatter,
 			isLocal: true,
+			saved: true,
+			savedName: docName.replace(/[\\/:*?"<>|]/g, "_") + ".md",
 		};
 	} else {
 		throw new Error("Local note not found");
@@ -80,6 +82,8 @@ const extractRemoteDoc = async (url: string, apiKey: string) => {
 			title: data.data.title.replace(/[\\/:*?"<>|]/g, "_"),
 			content: data.data.content,
 			isLocal: false,
+			saved: false,
+			savedName: data.data.title.replace(/[\\/:*?"<>|]/g, "_") + ".md",
 		};
 	} catch (error) {
 		console.error("Failed to fetch data", error);

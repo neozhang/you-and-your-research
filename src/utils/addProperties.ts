@@ -1,6 +1,6 @@
 import { Vault, TFile } from "obsidian";
 
-export const AddProperties = async (
+export const addProperties = async (
 	vault: Vault,
 	file: TFile,
 	data: object
