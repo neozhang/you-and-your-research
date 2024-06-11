@@ -71,14 +71,24 @@ If your plugin does not need CSS, delete this file.
 	background-color: var(--interactive-hover);
 }
 
+ul.generated-cards {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+	list-style-type: none;
+	padding: 0;
+}
+
 .card {
 	padding: var(--size-4-4);
 	margin: 0;
-	margin-bottom: var(--size-4-2);
 	border-radius: var(--radius-s);
 }
 
 .card-primary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
 	border: 1px solid var(--background-modifier-border);
 	background-color: var(--background-primary);
 }
@@ -105,7 +115,6 @@ If your plugin does not need CSS, delete this file.
 	font-weight: var(--font-bold);
 	color: var(--text-normal);
 	text-align: left;
-	margin-bottom: var(--size-4-2);
 	line-height: normal;
 }
 
@@ -122,7 +131,6 @@ If your plugin does not need CSS, delete this file.
 	-webkit-line-clamp: 5;
 	-webkit-box-orient: vertical;
 	color: var(--text-muted);
-	margin-bottom: var(--size-4-2);
 }
 
 .card-secondary > div > .card-content {

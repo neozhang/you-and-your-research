@@ -235,13 +235,12 @@ export const NoteExtractor = () => {
 										settings.openAIAPIKey,
 										settings.openAIModel
 									);
-									const cleanNewCards = newCards
-										.replace(/```json/g, "")
-										.replace(/```/g, "")
-										.trim();
-									const cleanNewCardsJSON = JSON.parse(
-										cleanNewCards
-									).map((card: any) => {
+									// const cleanNewCards = newCards
+									// 	.replace(/```json/g, "")
+									// 	.replace(/```/g, "")
+									// 	.trim();
+									console.log(newCards);
+									newCards.map((card: any) => {
 										return {
 											id: card.id,
 											title: card.title,
@@ -250,8 +249,8 @@ export const NoteExtractor = () => {
 												"[[" + (title as string) + "]]",
 										};
 									});
-									setCards(cleanNewCardsJSON);
-									console.log(cleanNewCardsJSON);
+									setCards(newCards);
+									console.log(newCards);
 								} finally {
 									setIsGenerating(false);
 								}
@@ -283,7 +282,7 @@ export const NoteExtractor = () => {
 				</div>
 			)}
 			{cards && cards.length > 0 && (
-				<ul style={{ listStyleType: "none", padding: 0 }}>
+				<ul className="generated-cards">
 					{cards.map((card: any, index: any) => (
 						<li
 							key={index}
@@ -292,6 +291,29 @@ export const NoteExtractor = () => {
 							}`}
 						>
 							<>
+								<div
+									className="card-main"
+									onClick={() => {
+										setExpandedCard(
+											expandedCard === index
+												? null
+												: index
+										); // Toggle or set the expanded card
+									}}
+								>
+									<div className="card-title">
+										{card.title}
+									</div>
+									<div
+										className={`card-content ${
+											expandedCard === index
+												? "card-full"
+												: ""
+										}`}
+									>
+										{card.content}
+									</div>
+								</div>
 								{card.id !== -1 ? (
 									<div className="card-sidebar">
 										{card.saved ? (
@@ -323,7 +345,7 @@ export const NoteExtractor = () => {
 												/>
 											</button>
 										)}
-										<button
+										{/* <button
 											className="btn btn-secondary"
 											onClick={() => {
 												if (activeEditor) {
@@ -344,7 +366,7 @@ export const NoteExtractor = () => {
 												className="icon"
 												strokeWidth={1}
 											/>
-										</button>
+										</button> */}
 										<button
 											className="btn btn-secondary"
 											onClick={() => {
@@ -389,29 +411,6 @@ export const NoteExtractor = () => {
 										</button>
 									</div>
 								)}
-								<div
-									className="card-main"
-									onClick={() => {
-										setExpandedCard(
-											expandedCard === index
-												? null
-												: index
-										); // Toggle or set the expanded card
-									}}
-								>
-									<div className="card-title">
-										{card.title}
-									</div>
-									<div
-										className={`card-content ${
-											expandedCard === index
-												? "card-full"
-												: ""
-										}`}
-									>
-										{card.content}
-									</div>
-								</div>
 							</>
 						</li>
 					))}

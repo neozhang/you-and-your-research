@@ -22,16 +22,16 @@
 -   [x] Add a button to go to setting tab on the warning card
 -   [x] After inserting the note to editor, switch focus to editor and scroll to the insert position
 -   [x] Import local notes
--   [ ] Text splitter to fit in GPT context window
+-   [x] Text splitter to fit in GPT context window
 
 ## Issues
 
 -   [x] Gen Cards text overflow issue (horizontal resizing)
 -   [x] New extraction will not update the Saved status
 -   [x] Model selector not updating after change
--   [ ] Callout formatting issues
--   [ ] Set cursor after the inserted content @ InsertCard
--   [ ] Combine handleSave and handleSaveCard
+-   [x] Callout formatting issues
+-   [-] Set cursor after the inserted content @ InsertCard
+-   [-] Combine handleSave and handleSaveCard
 
 ## Future (1.0+)
 
