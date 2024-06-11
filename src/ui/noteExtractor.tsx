@@ -103,9 +103,9 @@ export const NoteExtractor = () => {
 		}
 	};
 
-	const extractNote = async (url: string) => {
+	const extractNote = async (url: string, apiKey: string) => {
 		setIsExtracting(true);
-		const doc = await extractDoc(url, setting.jinaAIAPIkey, vault);
+		const doc = await extractDoc(url, apiKey, vault);
 		setIsLocal(doc.isLocal);
 		setTitle(doc.title);
 		setContent(doc.content);
@@ -153,11 +153,12 @@ export const NoteExtractor = () => {
 							setContent(""); // Initialize doc state
 							setCards([]); // Initialize cards state
 							setSaved(false); // Initialize saved state
-							extractNote(url || "https://example.com").finally(
-								() => {
-									setIsExtracting(false);
-								}
-							);
+							extractNote(
+								url || "https://example.com",
+								settings.jinaAIAPIKey
+							).finally(() => {
+								setIsExtracting(false);
+							});
 						}}
 						className="btn btn-primary"
 						disabled={isExtracting}

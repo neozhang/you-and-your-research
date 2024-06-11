@@ -58,13 +58,14 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 						jinaAPIKey = value;
 						await this.plugin.saveSettings();
 					});
-				apiKey = this.plugin.settings.openAIAPIKey;
+				jinaAPIKey = this.plugin.settings.jinaAIAPIKey;
 			});
 
 		new Setting(containerEl).addButton((button) =>
 			button.setButtonText("Save").onClick(async () => {
 				this.plugin.settings.openAIModel = model;
 				this.plugin.settings.openAIAPIKey = apiKey;
+				this.plugin.settings.jinaAIAPIKey = jinaAPIKey;
 				await this.plugin.saveSettings();
 				console.log("Settings saved: ", this.plugin.settings);
 			})

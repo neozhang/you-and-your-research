@@ -59,7 +59,7 @@ export const getNoteSuggestions = async (query: string, vault: any) => {
 const extractRemoteDoc = async (url: string, apiKey: string) => {
 	const jinaAPI = "https://r.jina.ai/";
 	try {
-		const response = await (apiKey === ""
+		const response = await (!apiKey
 			? fetch(jinaAPI + url, {
 					method: "GET",
 					headers: {
