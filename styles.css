@@ -122,6 +122,7 @@ ul.generated-cards {
 	color: var(--text-normal);
 	text-align: left;
 	line-height: normal;
+	margin-bottom: 0px;
 }
 
 .card-secondary > .card-main > .card-title {
