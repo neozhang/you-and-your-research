@@ -229,6 +229,7 @@ export const NoteExtractor = () => {
 							className="btn btn-secondary"
 							onClick={async () => {
 								setIsGenerating(true);
+								setCards([]);
 								console.log("Generating with:", settings);
 								try {
 									const newCards = await generateCards(
@@ -247,7 +248,6 @@ export const NoteExtractor = () => {
 										};
 									});
 									setCards(newCards);
-									console.log(newCards);
 								} finally {
 									setIsGenerating(false);
 								}
