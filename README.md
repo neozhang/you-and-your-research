@@ -4,7 +4,7 @@ Research is an essential task performed by 1 billion knowledge workers. Many peo
 
 Research requires intensive information retrieval, usually from long-form materials. This requires focus and attention. However, the current toolset for researchers usually requires them switch among many contexts: search engines, AI chats, file explorers, etc. This is very inefficient. Consolidating these tools into a single, integrated interface, like Obsidian, can greatly improve research efficiency. This allows for seamless transitions between tasks without disrupting focus, creating a flow just for you and your research.
 
-# Get Started
+## Get Started
 
 Install and enable the plugin from Obsidian's Community Plugins platform.
 
@@ -29,7 +29,7 @@ You will see the plugin in the right sidebar, with an icon of microscope. Here i
     - Click the "Save" button to save them to your vault, which will turn to an "Open" button to open the saved note.
     - Saved research notes will have a "URL" property, backlinking to its original note.
 
-# Development
+## Future Development
 
 This is an opinionated software. I made it to speed up my own work. I have no idea how much more time I can commit in the future but I do have some ideas on mind:
 
