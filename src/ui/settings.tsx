@@ -11,7 +11,7 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 
 	display(): void {
 		let { containerEl } = this;
-		let apiKey: string, model: string;
+		let apiKey: string, model: string, jinaAPIKey: string;
 
 		containerEl.empty();
 
@@ -45,6 +45,20 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 				model = this.plugin.settings.openAIModel;
+			});
+
+		new Setting(containerEl)
+			.setName("Jina AI API")
+			.setDesc("https://jina.ai/reader#apiform")
+			.addText((text) => {
+				text.setPlaceholder("jina_")
+					.setValue(this.plugin.settings.jinaAIAPIKey)
+					.onChange(async (value) => {
+						this.plugin.settings.jinaAIAPIKey = value;
+						jinaAPIKey = value;
+						await this.plugin.saveSettings();
+					});
+				apiKey = this.plugin.settings.openAIAPIKey;
 			});
 
 		new Setting(containerEl).addButton((button) =>

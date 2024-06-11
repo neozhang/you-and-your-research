@@ -10,10 +10,12 @@ const VIEW_TYPE = "react-view";
 interface NoteExtractorSetting {
 	openAIAPIKey: string;
 	openAIModel: string;
+	jinaAIAPIKey: string;
 }
 const DEFAULT_SETTINGS: Partial<NoteExtractorSetting> = {
 	openAIAPIKey: "",
 	openAIModel: "gpt-3.5-turbo",
+	jinaAIAPIKey: "",
 };
 
 class MyReactView extends ItemView {

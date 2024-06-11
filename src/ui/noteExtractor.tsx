@@ -105,7 +105,7 @@ export const NoteExtractor = () => {
 
 	const extractNote = async (url: string) => {
 		setIsExtracting(true);
-		const doc = await extractDoc(url, vault);
+		const doc = await extractDoc(url, setting.jinaAIAPIkey, vault);
 		setIsLocal(doc.isLocal);
 		setTitle(doc.title);
 		setContent(doc.content);

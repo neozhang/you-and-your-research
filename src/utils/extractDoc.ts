@@ -1,8 +1,8 @@
-export const extractDoc = async (url: string, vault: any) => {
+export const extractDoc = async (url: string, apikey: string, vault: any) => {
 	if (url.startsWith("[[") && url.endsWith("]]")) {
 		return extractLocalDoc(url, vault);
 	} else {
-		return extractRemoteDoc(url);
+		return extractRemoteDoc(url, apikey);
 	}
 };
 
@@ -56,15 +56,24 @@ export const getNoteSuggestions = async (query: string, vault: any) => {
 	return suggestions;
 };
 
-const extractRemoteDoc = async (url: string) => {
+const extractRemoteDoc = async (url: string, apiKey: string) => {
 	const jinaAPI = "https://r.jina.ai/";
 	try {
-		const response = await fetch(jinaAPI + url, {
-			method: "GET",
-			headers: {
-				Accept: "application/json",
-			},
-		});
+		const response = await (apiKey === ""
+			? fetch(jinaAPI + url, {
+					method: "GET",
+					headers: {
+						Accept: "application/json",
+					},
+			  })
+			: fetch(jinaAPI + url, {
+					method: "GET",
+					headers: {
+						Accept: "application/json",
+						Authorization: `Bearer ${apiKey}`,
+					},
+			  }));
+
 		const data = await response.json();
 		console.log(data);
 		return {
