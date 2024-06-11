@@ -369,7 +369,12 @@ export const NoteExtractor = () => {
 											className="btn btn-secondary"
 											onClick={() => {
 												navigator.clipboard
-													.writeText(card.content)
+													.writeText(
+														"#### " +
+															card.title +
+															"\n\n" +
+															card.content
+													)
 													.then(() => {
 														console.log(
 															"Card content copied to clipboard"
