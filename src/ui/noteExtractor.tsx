@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
 	SquarePlus,
 	Tornado,
-	Play,
+	ChevronRight,
 	Check,
 	// BetweenHorizontalEnd,
 	Settings,
 	Copy,
 } from "lucide-react";
 import { usePlugin } from "../hooks";
-import { MarkdownView } from "obsidian";
+// import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
 // import insertCard from "../utils/insertCard";
@@ -42,32 +42,32 @@ export const NoteExtractor = () => {
 	const [suggestions, setSuggestions] = React.useState<string[]>([]);
 	const [selectedSuggestionIndex, setSelectedSuggestionIndex] =
 		React.useState<number>(-1);
-	const [activeEditor, setActiveEditor] = useState<any>(null);
-	const [cursorPosition, setCursorPosition] = useState<any>(null);
+	// const [activeEditor, setActiveEditor] = useState<any>(null);
+	// const [cursorPosition, setCursorPosition] = useState<any>(null);
 
-	useEffect(() => {
-		const handleActiveLeafChange = () => {
-			const view = app?.workspace?.getActiveViewOfType(MarkdownView);
-			if (view) {
-				setActiveEditor(view.editor);
-				setCursorPosition(view.editor.getCursor());
-			} else if (activeEditor) {
-				console.log(activeEditor.hasFocus(), activeEditor.getCursor());
-				setCursorPosition(activeEditor.getCursor());
-			}
-		};
+	// useEffect(() => {
+	// 	const handleActiveLeafChange = () => {
+	// 		const view = app?.workspace?.getActiveViewOfType(MarkdownView);
+	// 		if (view) {
+	// 			setActiveEditor(view.editor);
+	// 			setCursorPosition(view.editor.getCursor());
+	// 		} else if (activeEditor) {
+	// 			console.log(activeEditor.hasFocus(), activeEditor.getCursor());
+	// 			setCursorPosition(activeEditor.getCursor());
+	// 		}
+	// 	};
 
-		// Initial check
-		handleActiveLeafChange();
+	// 	// Initial check
+	// 	handleActiveLeafChange();
 
-		// Listen for active leaf changes
-		app?.workspace?.on("active-leaf-change", handleActiveLeafChange);
+	// 	// Listen for active leaf changes
+	// 	app?.workspace?.on("active-leaf-change", handleActiveLeafChange);
 
-		// Cleanup function to remove the event listeners if the component unmounts
-		return () => {
-			app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
-		};
-	}, [app, activeEditor]);
+	// 	// Cleanup function to remove the event listeners if the component unmounts
+	// 	return () => {
+	// 		app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
+	// 	};
+	// }, [app, activeEditor]);
 
 	const handleInputChange = async (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -150,8 +150,9 @@ export const NoteExtractor = () => {
 
 					<button
 						onClick={() => {
+							setContent(""); // Initialize doc state
 							setCards([]); // Initialize cards state
-							setSaved(false);
+							setSaved(false); // Initialize saved state
 							extractNote(url || "https://example.com").finally(
 								() => {
 									setIsExtracting(false);
@@ -162,7 +163,7 @@ export const NoteExtractor = () => {
 						disabled={isExtracting}
 						title="Download content from URL"
 					>
-						<Play className="icon" strokeWidth={1} />
+						<ChevronRight className="icon" strokeWidth={1} />
 					</button>
 				</form>
 				{suggestions.length > 0 && (
@@ -235,10 +236,6 @@ export const NoteExtractor = () => {
 										settings.openAIAPIKey,
 										settings.openAIModel
 									);
-									// const cleanNewCards = newCards
-									// 	.replace(/```json/g, "")
-									// 	.replace(/```/g, "")
-									// 	.trim();
 									console.log(newCards);
 									newCards.map((card: any) => {
 										return {
