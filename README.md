@@ -23,6 +23,7 @@
 -   [x] After inserting the note to editor, switch focus to editor and scroll to the insert position
 -   [x] Import local notes
 -   [x] Text splitter to fit in GPT context window
+-   [ ] Streaming?
 
 ## Issues
 

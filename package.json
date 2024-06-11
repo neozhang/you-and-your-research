@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-note-extractor",
+	"name": "you-and-your-research",
 	"version": "1.0.0",
-	"description": "Extract notes from the Web, save them in your Obsidian Vault and generate knowledge cards from them.",
+	"description": "Research anything with the help of A.I.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -26,7 +26,6 @@
 		"typescript": "4.7.4"
 	},
 	"dependencies": {
-		"dotenv": "^16.4.5",
 		"lucide-react": "^0.390.0"
 	}
 }

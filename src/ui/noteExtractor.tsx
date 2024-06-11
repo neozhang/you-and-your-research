@@ -4,7 +4,7 @@ import {
 	Tornado,
 	Play,
 	Check,
-	BetweenHorizontalEnd,
+	// BetweenHorizontalEnd,
 	Settings,
 	Copy,
 } from "lucide-react";
@@ -12,7 +12,7 @@ import { usePlugin } from "../hooks";
 import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote from "../utils/saveNote";
-import insertCard from "../utils/insertCard";
+// import insertCard from "../utils/insertCard";
 import extractDoc, { getNoteSuggestions } from "../utils/extractDoc";
 
 interface Card {

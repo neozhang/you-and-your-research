@@ -1,10 +1,10 @@
 {
-	"id": "note-extractor",
-	"name": "Note Extractor",
-	"version": "0.9.3",
+	"id": "you-and-your-research",
+	"name": "You and Your Research",
+	"version": "0.9.4",
 	"minAppVersion": "0.15.0",
-	"description": "Extract notes from the Web, save them in your Vault and generate notes.",
-	"author": "Obsidian",
+	"description": "Research anything with the help of A.I.",
+	"author": "Neo Zhang",
 	"authorUrl": "https://pt.plus",
 	"fundingUrl": "https://pt.plus",
 	"isDesktopOnly": true

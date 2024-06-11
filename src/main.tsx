@@ -31,11 +31,11 @@ class MyReactView extends ItemView {
 	}
 
 	getDisplayText(): string {
-		return "Note Extractor";
+		return "You and Your Research";
 	}
 
 	getIcon(): string {
-		return "sparkles";
+		return "microscope";
 	}
 
 	async onOpen(): Promise<void> {
