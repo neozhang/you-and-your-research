@@ -1,42 +1,44 @@
-# TODO
+# You and Your Search
 
-## Features (1.0)
+Research is an essential task performed by 1 billion knowledge workers. Many people also do research in their daily lives, such as travel planning.
 
--   [x] Develop the SaveNote module
--   [x] Add URL as a frontmatter property
--   [x] Clean up the Jina Reader mess
--   [x] Consider dark mode for styles
--   [x] Develop the GenerateCards module
--   [x] Bring your own API key
--   [x] Add loading animation
--   [x] Fix the backlink issue in saving the url property of knowledge cards
--   [x] Improve the look and feel: icons and card design
--   [x] Improve the prompt for GenerateCards
--   [-] Add a model selector next to Generate Cards button
--   [x] The DEFAULT_SETTING var always revert back to gpt-3.5-turbo
--   [x] Add preview function to cards
--   [x] New extraction should clear all previously generated cards
--   [x] Setting tab default model should reflect the current model in use
--   [x] Add a button to insert a card to current file
--   [x] Add tooltips to buttons
--   [x] Add a button to go to setting tab on the warning card
--   [x] After inserting the note to editor, switch focus to editor and scroll to the insert position
--   [x] Import local notes
--   [x] Text splitter to fit in GPT context window
--   [ ] Streaming?
+Research requires intensive information retrieval, usually from long-form materials. This requires focus and attention. However, the current toolset for researchers usually requires them switch among many contexts: search engines, AI chats, file explorers, etc. This is very inefficient. Consolidating these tools into a single, integrated interface, like Obsidian, can greatly improve research efficiency. This allows for seamless transitions between tasks without disrupting focus, creating a flow just for you and your research.
 
-## Issues
+# Get Started
 
--   [x] Gen Cards text overflow issue (horizontal resizing)
--   [x] New extraction will not update the Saved status
--   [x] Model selector not updating after change
--   [x] Callout formatting issues
--   [-] Set cursor after the inserted content @ InsertCard
--   [-] Combine handleSave and handleSaveCard
+Install and enable the plugin from Obsidian's Community Plugins platform.
 
-## Future (1.0+)
+You will need to bring your own API key for using OpenAI. You can get it from the [OpenAI Dashboard](https://platform.openai.com/account/api-keys). Add it in the plugin settings.
 
--   [ ] Card preview in Markdown
--   [ ] Integration with Readwise
--   [ ] Extract notes from YouTube
--   [ ] Extract notes from Apple Podcasts and Spotify
+You can choose gpt-3.5-turbo or gpt-4o as your model of choice.
+
+The plugin also uses Jina AI to extract the content of the web pages you read. You can also bring your own API key for using Jina AI. You can get it from the [Jina website](https://jina.ai/reader/#apiform). Add it in the plugin settings.
+
+You will see the plugin in the right sidebar, with an icon of microscope. Here is what you can do with it:
+
+1. Web content:
+    - You can input any URLs in the search box and press Enter (or click the search button). The plugin will then use Jina AI to extract the content of the web page and display it as a card.
+    - You can save the card to your vault by clicking the "Save" button, which will turn to an "Open" button to open the saved note. Saved card will have a "URL" property.
+    - Or you can click "Research" button to use OpenAI to generated research notes.
+2. Local content:
+    - You can input double bracket "[[" (just like you do in the Obsidian editor). The plugin will start to search your vault for files.
+    - Choose the one you want to resarch on and click "Research" button.
+3. Research:
+    - The research notes will also be displayed as cards. You can click them to see in full details.
+    - You can click the "Copy" button to copy them to your clipboard.
+    - Click the "Save" button to save them to your vault, which will turn to an "Open" button to open the saved note.
+    - Saved research notes will have a "URL" property, backlinking to its original note.
+
+# Development
+
+This is an opinionated software. I made it to speed up my own work. I have no idea how much more time I can commit in the future but I do have some ideas on mind:
+
+-   Importing YouTube videos and podcasts
+-   Better integration with the Obsidian editor
+-   Searching the web (?)
+-   Streaming the output (?)
+
+Please show your support if you find it helpful:
+
+-   [Buy me a coffee](https://www.buymeacoffee.com/neozhang)
+-   Subscribe to my newsletter: [Platform Thinking +](https://pt.plus) (tech / business review in Chinese)

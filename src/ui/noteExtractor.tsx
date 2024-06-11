@@ -269,7 +269,7 @@ export const NoteExtractor = () => {
 							title="Generate notes from the given content"
 						>
 							<Tornado className="icon" strokeWidth={1} />{" "}
-							<span>Generate</span>
+							<span>Research</span>
 						</button>
 						<div
 							className="model-selector"
@@ -288,7 +288,9 @@ export const NoteExtractor = () => {
 			)}
 			{isGenerating && (
 				<div className="loading-container">
-					<div className="loading-animation">Generating...</div>
+					<div className="loading-animation">
+						Researching in progress...
+					</div>
 				</div>
 			)}
 			{cards && cards.length > 0 && (
