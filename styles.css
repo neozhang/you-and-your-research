@@ -7,6 +7,12 @@ If your plugin does not need CSS, delete this file.
 
 */
 
+.note-extractor-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-2);
+}
+
 .loading-animation {
 	font-size: var(--font-ui-small);
 	color: var(--text-normal);
@@ -18,7 +24,6 @@ If your plugin does not need CSS, delete this file.
 	justify-content: flex-start;
 	align-items: flex-start;
 	gap: var(--size-2-2);
-	margin-bottom: var(--size-4-2);
 	background-color: var(--background-secondary);
 	max-width: 100%;
 }
@@ -77,6 +82,7 @@ ul.generated-cards {
 	gap: var(--size-4-2);
 	list-style-type: none;
 	padding: 0;
+	margin: 0;
 }
 
 .card {
@@ -118,7 +124,7 @@ ul.generated-cards {
 	line-height: normal;
 }
 
-.card-secondary > .card-title {
+.card-secondary > .card-main > .card-title {
 	font-weight: var(--font-semi-bold);
 }
 

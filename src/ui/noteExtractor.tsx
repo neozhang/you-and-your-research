@@ -136,7 +136,7 @@ export const NoteExtractor = () => {
 	};
 
 	return (
-		<>
+		<div className="note-extractor-container">
 			<div className="topbar">
 				<form>
 					<input
@@ -203,7 +203,7 @@ export const NoteExtractor = () => {
 								pointerEvents:
 									saved || isLocal ? "none" : "auto",
 							}}
-							title="Save note"
+							title="Save to your vault"
 						>
 							{saved || isLocal ? (
 								<>
@@ -416,7 +416,7 @@ export const NoteExtractor = () => {
 					))}
 				</ul>
 			)}
-		</>
+		</div>
 	);
 };
 
