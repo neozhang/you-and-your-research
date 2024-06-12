@@ -3,8 +3,6 @@ export const generateCards = async (
 	openAIAPIKey: string,
 	openAIModel: string
 ) => {
-	console.log(openAIAPIKey, openAIModel === "gpt-3.5-turbo");
-
 	function splitText(
 		text: string,
 		maxWords: number = 2000,
@@ -28,8 +26,6 @@ export const generateCards = async (
 		role: "user",
 		content: "Doc:\n" + chunk,
 	}));
-
-	console.log(prompts);
 
 	const results: any[] = [];
 	for (const prompt of prompts) {

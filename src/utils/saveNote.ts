@@ -1,5 +1,4 @@
 import { TFile } from "obsidian";
-import { addProperties } from "./addProperties";
 
 interface Note {
 	title: string;
@@ -7,7 +6,7 @@ interface Note {
 	url: string;
 }
 
-export const saveNote = async (note: Note, vault: any) => {
+export const saveNote = async (note: Note, vault: any, app: any) => {
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
 	let counter = 1;
@@ -18,7 +17,9 @@ export const saveNote = async (note: Note, vault: any) => {
 	await vault.create(fileName, cleanedContent);
 	const file = await vault.getAbstractFileByPath(fileName);
 	if (file instanceof TFile) {
-		await addProperties(vault, file, { url: note.url });
+		await app.fileManager.processFrontMatter(file, (fm: any) => {
+			fm["url"] = note.url;
+		});
 	}
 	return fileName;
 };

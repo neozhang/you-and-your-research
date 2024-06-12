@@ -26,6 +26,7 @@ interface Card {
 
 export const NoteExtractor = () => {
 	const plugin = usePlugin() as any;
+	const app = plugin?.app;
 	const workspace = plugin?.app?.workspace;
 	const vault = plugin?.app?.vault;
 	const setting = plugin?.app?.setting;
@@ -120,7 +121,7 @@ export const NoteExtractor = () => {
 		if (saved || isLocal) {
 			openNote(savedDocName, vault, workspace);
 		} else {
-			const f = await saveNote({ title, content, url }, vault);
+			const f = await saveNote({ title, content, url }, vault, app);
 			setSavedDocName(f);
 		}
 		setSaved(true);
@@ -137,9 +138,9 @@ export const NoteExtractor = () => {
 				content: card.content,
 				url: card.url,
 			},
-			vault
+			vault,
+			app
 		);
-
 		newCards[index].savedName = f;
 		newCards[index].saved = true;
 		setCards(newCards); // This will update the state and re-render the component
@@ -248,18 +249,19 @@ export const NoteExtractor = () => {
 										settings.openAIAPIKey,
 										settings.openAIModel
 									);
-									newCards.map((card: any) => {
-										return {
-											id: card.id,
-											title: card.title,
-											content: card.content,
-											url:
-												"[[" + (title as string) + "]]",
-											saved: false,
-											savedName: "",
-										};
-									});
-									setCards(newCards);
+									const updatedCards = newCards.map(
+										(card: any) => {
+											return {
+												id: card.id,
+												title: card.title,
+												content: card.content,
+												url: "[[" + card.title + "]]",
+												saved: false,
+												savedName: "",
+											};
+										}
+									);
+									setCards(updatedCards);
 								} finally {
 									setIsGenerating(false);
 								}
