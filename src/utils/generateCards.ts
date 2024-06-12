@@ -82,7 +82,6 @@ export const generateCards = async (
 		}
 
 		const data = await response.json();
-		console.log("Raw data:", data); // Log raw data for debugging
 		// Assuming the correct data is in data.choices[0].message.content
 		let content =
 			data.choices &&
@@ -96,7 +95,6 @@ export const generateCards = async (
 				.replace(/```json/g, "")
 				.replace(/```/g, "")
 				.trim();
-			console.log("Cleaned content:", content); // Log cleaned content for debugging
 			try {
 				let jsonContent = JSON.parse(content);
 				results.push(...jsonContent);
@@ -106,7 +104,6 @@ export const generateCards = async (
 			}
 		}
 	}
-	console.log("Final results:", results);
 	return results;
 };
 

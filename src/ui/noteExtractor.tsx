@@ -139,7 +139,7 @@ export const NoteExtractor = () => {
 			},
 			vault
 		);
-		console.log(f);
+
 		newCards[index].savedName = f;
 		newCards[index].saved = true;
 		setCards(newCards); // This will update the state and re-render the component
@@ -242,7 +242,6 @@ export const NoteExtractor = () => {
 							onClick={async () => {
 								setIsGenerating(true);
 								setCards([]);
-								console.log("Generating with:", settings);
 								try {
 									const newCards = await generateCards(
 										content,
@@ -384,24 +383,12 @@ export const NoteExtractor = () => {
 										<button
 											className="btn btn-secondary"
 											onClick={() => {
-												navigator.clipboard
-													.writeText(
-														"#### " +
-															card.title +
-															"\n\n" +
-															card.content
-													)
-													.then(() => {
-														console.log(
-															"Card content copied to clipboard"
-														);
-													})
-													.catch((err) => {
-														console.error(
-															"Failed to copy card content: ",
-															err
-														);
-													});
+												navigator.clipboard.writeText(
+													"#### " +
+														card.title +
+														"\n\n" +
+														card.content
+												);
 											}}
 											title="Copy card to clipboard"
 										>

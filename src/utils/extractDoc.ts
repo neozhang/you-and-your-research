@@ -77,7 +77,6 @@ const extractRemoteDoc = async (url: string, apiKey: string) => {
 			  }));
 
 		const data = await response.json();
-		console.log(data);
 		return {
 			title: data.data.title.replace(/[\\/:*?"<>|]/g, "_"),
 			content: data.data.content,
