@@ -55,9 +55,9 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("Generated research file location")
+			.setName("Location for generated research files")
 			.setDesc(
-				"Saved files from You and Your Research will be saved here, default to the root of the vault."
+				"Saved files from You and Your Research will be saved here, default to the root of the vault"
 			)
 			.addText((text) => {
 				text.setPlaceholder("Example: folder/subfolder")

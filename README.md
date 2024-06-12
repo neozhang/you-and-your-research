@@ -20,6 +20,8 @@ You can choose gpt-3.5-turbo or gpt-4o as your model of choice.
 
 **OPTIONAL** The plugin also uses Jina AI to extract the content of the web pages you read. You can also bring your own API key for using Jina AI. You can get it from the [Jina website](https://jina.ai/reader/#apiform). Add it in the plugin settings.
 
+**OPTIONAL** You can also set your preferred location for saved files. The default location will be the root of your vault.
+
 ![Settings](./assets/Screenshot_Settings.png)
 
 ### Research at Work
