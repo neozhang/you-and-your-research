@@ -11,27 +11,24 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 
 	display(): void {
 		let { containerEl } = this;
-		let apiKey: string, model: string, jinaAPIKey: string;
 
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName("OpenAI API Key")
-			.setDesc("Bring Your Own API Key")
+			.setName("OpenAI API key")
+			.setDesc("Bring your own API key")
 			.addText((text) => {
 				text.setPlaceholder("sk-")
 					.setValue(this.plugin.settings.openAIAPIKey)
 					.onChange(async (value) => {
 						this.plugin.settings.openAIAPIKey = value;
-						apiKey = value;
 						await this.plugin.saveSettings();
 					});
-				apiKey = this.plugin.settings.openAIAPIKey;
 			});
 
 		new Setting(containerEl)
-			.setName("OpenAI Model")
-			.setDesc("Choose the Right Model")
+			.setName("OpenAI model")
+			.setDesc("Choose your preferred model")
 			.addDropdown((dropdown) => {
 				dropdown
 					.addOptions({
@@ -41,31 +38,41 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 					.setValue(this.plugin.settings.openAIModel)
 					.onChange(async (value) => {
 						this.plugin.settings.openAIModel = value;
-						model = value;
 						await this.plugin.saveSettings();
 					});
-				model = this.plugin.settings.openAIModel;
 			});
 
 		new Setting(containerEl)
-			.setName("Jina AI API (Optional)")
+			.setName("Jina AI API key (optional)")
 			.setDesc("https://jina.ai/reader#apiform")
 			.addText((text) => {
 				text.setPlaceholder("jina_")
 					.setValue(this.plugin.settings.jinaAIAPIKey)
 					.onChange(async (value) => {
 						this.plugin.settings.jinaAIAPIKey = value;
-						jinaAPIKey = value;
 						await this.plugin.saveSettings();
 					});
-				jinaAPIKey = this.plugin.settings.jinaAIAPIKey;
+			});
+
+		new Setting(containerEl)
+			.setName("Generated research file location")
+			.setDesc(
+				"Saved files from You and Your Research will be saved here, default to the root of the vault."
+			)
+			.addText((text) => {
+				text.setPlaceholder("Example: folder/subfolder")
+					.setValue(this.plugin.settings.savedLocation)
+					.onChange(async (value) => {
+						this.plugin.settings.savedLocation = value.replace(
+							/\/$/,
+							""
+						);
+						await this.plugin.saveSettings();
+					});
 			});
 
 		new Setting(containerEl).addButton((button) =>
 			button.setButtonText("Save").onClick(async () => {
-				this.plugin.settings.openAIModel = model;
-				this.plugin.settings.openAIAPIKey = apiKey;
-				this.plugin.settings.jinaAIAPIKey = jinaAPIKey;
 				await this.plugin.saveSettings();
 			})
 		);

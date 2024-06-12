@@ -11,6 +11,7 @@ interface NoteExtractorSetting {
 	openAIAPIKey: string;
 	openAIModel: string;
 	jinaAIAPIKey: string;
+	savedLocation: string;
 }
 const DEFAULT_SETTINGS: Partial<NoteExtractorSetting> = {
 	openAIAPIKey: "",

@@ -9,10 +9,8 @@ import {
 	Copy,
 } from "lucide-react";
 import { usePlugin } from "../hooks";
-// import { MarkdownView } from "obsidian";
 import generateCards from "../utils/generateCards";
 import saveNote, { openNote } from "../utils/saveNote";
-// import insertCard from "../utils/insertCard";
 import extractDoc, { getNoteSuggestions } from "../utils/extractDoc";
 
 interface Card {
@@ -45,32 +43,6 @@ export const NoteExtractor = () => {
 	const [suggestions, setSuggestions] = React.useState<string[]>([]);
 	const [selectedSuggestionIndex, setSelectedSuggestionIndex] =
 		React.useState<number>(-1);
-	// const [activeEditor, setActiveEditor] = useState<any>(null);
-	// const [cursorPosition, setCursorPosition] = useState<any>(null);
-
-	// useEffect(() => {
-	// 	const handleActiveLeafChange = () => {
-	// 		const view = app?.workspace?.getActiveViewOfType(MarkdownView);
-	// 		if (view) {
-	// 			setActiveEditor(view.editor);
-	// 			setCursorPosition(view.editor.getCursor());
-	// 		} else if (activeEditor) {
-	// 			console.log(activeEditor.hasFocus(), activeEditor.getCursor());
-	// 			setCursorPosition(activeEditor.getCursor());
-	// 		}
-	// 	};
-
-	// 	// Initial check
-	// 	handleActiveLeafChange();
-
-	// 	// Listen for active leaf changes
-	// 	app?.workspace?.on("active-leaf-change", handleActiveLeafChange);
-
-	// 	// Cleanup function to remove the event listeners if the component unmounts
-	// 	return () => {
-	// 		app?.workspace?.off("active-leaf-change", handleActiveLeafChange);
-	// 	};
-	// }, [app, activeEditor]);
 
 	const handleInputChange = async (
 		e: React.ChangeEvent<HTMLInputElement>
@@ -121,7 +93,12 @@ export const NoteExtractor = () => {
 		if (saved || isLocal) {
 			openNote(savedDocName, vault, workspace);
 		} else {
-			const f = await saveNote({ title, content, url }, vault, app);
+			const f = await saveNote(
+				{ title, content, url },
+				vault,
+				app,
+				settings.savedLocation
+			);
 			setSavedDocName(f);
 		}
 		setSaved(true);
@@ -139,7 +116,8 @@ export const NoteExtractor = () => {
 				url: card.url,
 			},
 			vault,
-			app
+			app,
+			setting.savedLocation
 		);
 		newCards[index].savedName = f;
 		newCards[index].saved = true;

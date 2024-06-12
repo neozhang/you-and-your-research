@@ -6,16 +6,27 @@ interface Note {
 	url: string;
 }
 
-export const saveNote = async (note: Note, vault: any, app: any) => {
+export const saveNote = async (
+	note: Note,
+	vault: any,
+	app: any,
+	path: string
+) => {
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
 	let counter = 1;
-	while (await vault.exists(fileName)) {
+	let fullPath = `${path}/${fileName}`;
+	while (await vault.exists(fullPath)) {
 		fileName = `${note.title} - ${counter}.md`;
+		fullPath = `${path}/${fileName}`;
 		counter++;
 	}
-	await vault.create(fileName, cleanedContent);
-	const file = await vault.getAbstractFileByPath(fileName);
+	if (!vault.getFolderByPath(path)) {
+		await vault.createFolder(path);
+	}
+
+	await vault.create(fullPath, cleanedContent);
+	const file = await vault.getAbstractFileByPath(fullPath);
 	if (file instanceof TFile) {
 		await app.fileManager.processFrontMatter(file, (fm: any) => {
 			fm["url"] = note.url;
