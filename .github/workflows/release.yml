@@ -17,17 +17,9 @@ jobs:
               with:
                   node-version: "20.x"
 
-            - name: Clean and Install Dependencies
-              run: |
-                  npm ci
-
-            - name: Clean build directory if exists
-              run: |
-                  if [ -d "dist" ]; then rm -rf dist; fi
-                  if [ -d "build" ]; then rm -rf build; fi
-
             - name: Build plugin
               run: |
+                  npm install
                   npm run build
 
             - name: Create release
