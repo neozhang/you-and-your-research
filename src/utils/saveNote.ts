@@ -10,7 +10,8 @@ export const saveNote = async (
 	note: Note,
 	vault: any,
 	app: any,
-	path: string
+	path: string,
+	tag: string
 ) => {
 	const cleanedContent = cleanupJinaReaderContent(note.content);
 	let fileName = `${note.title}.md`;
@@ -30,17 +31,21 @@ export const saveNote = async (
 	if (file instanceof TFile) {
 		await app.fileManager.processFrontMatter(file, (fm: any) => {
 			fm["url"] = note.url;
+			if (tag) {
+				fm["tags"] = !fm["tags"] ? [tag] : [...fm["tags"], tag];
+			}
 		});
 	}
 	return fileName;
 };
 
 export const openNote = async (
+	path: string,
 	fileName: string,
 	vault: any,
 	workspace: any
 ) => {
-	const file = await vault.getAbstractFileByPath(fileName);
+	const file = await vault.getAbstractFileByPath(`${path}/${fileName}`);
 	workspace.getLeaf(true).openFile(file);
 };
 

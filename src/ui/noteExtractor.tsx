@@ -27,7 +27,7 @@ export const NoteExtractor = () => {
 	const app = plugin?.app;
 	const workspace = plugin?.app?.workspace;
 	const vault = plugin?.app?.vault;
-	const setting = plugin?.app?.setting;
+	const settingView = plugin?.app?.setting;
 
 	const [settings, setSettings] = React.useState(plugin?.settings);
 	const [url, setUrl] = React.useState("");
@@ -91,13 +91,14 @@ export const NoteExtractor = () => {
 
 	const handleSave = async () => {
 		if (saved || isLocal) {
-			openNote(savedDocName, vault, workspace);
+			openNote(settings.savedLocation, savedDocName, vault, workspace);
 		} else {
 			const f = await saveNote(
 				{ title, content, url },
 				vault,
 				app,
-				settings.savedLocation
+				settings.savedLocation,
+				settings.savedTag
 			);
 			setSavedDocName(f);
 		}
@@ -117,7 +118,8 @@ export const NoteExtractor = () => {
 			},
 			vault,
 			app,
-			settings.savedLocation
+			settings.savedLocation,
+			settings.savedTag
 		);
 		newCards[index].savedName = f;
 		newCards[index].saved = true;
@@ -253,8 +255,8 @@ export const NoteExtractor = () => {
 						<div
 							className="model-selector"
 							onClick={() => {
-								setting.open();
-								setting.openTabById("note-extractor");
+								settingView.open();
+								settingView.openTabById("note-extractor");
 							}}
 							title="Open API settings"
 						>
@@ -313,6 +315,7 @@ export const NoteExtractor = () => {
 												title="Open the saved note"
 												onClick={() =>
 													openNote(
+														settings.savedLocation,
 														card.savedName,
 														vault,
 														workspace
@@ -383,8 +386,8 @@ export const NoteExtractor = () => {
 										<button
 											className="btn btn-secondary"
 											onClick={() => {
-												setting.open();
-												setting.openTabById(
+												settingView.open();
+												settingView.openTabById(
 													"note-extractor"
 												);
 											}}

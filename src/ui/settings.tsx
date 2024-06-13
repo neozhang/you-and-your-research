@@ -71,6 +71,18 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 					});
 			});
 
+		new Setting(containerEl)
+			.setName("Tag for generated research files")
+			.setDesc("Tag your saved files automatically")
+			.addText((text) => {
+				text.setPlaceholder("Example: tagname")
+					.setValue(this.plugin.settings.savedTag)
+					.onChange(async (value) => {
+						this.plugin.settings.savedTag = value;
+						await this.plugin.saveSettings();
+					});
+			});
+
 		new Setting(containerEl).addButton((button) =>
 			button.setButtonText("Save").onClick(async () => {
 				await this.plugin.saveSettings();
