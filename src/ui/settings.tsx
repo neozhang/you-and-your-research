@@ -94,11 +94,5 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					});
 			});
-
-		new Setting(containerEl).addButton((button) =>
-			button.setButtonText("Save").onClick(async () => {
-				await this.plugin.saveSettings();
-			})
-		);
 	}
 }
