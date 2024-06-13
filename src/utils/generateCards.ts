@@ -1,3 +1,4 @@
+import { requestUrl } from "obsidian";
 import { Card } from "../types";
 
 export const generateCards = async (
@@ -26,47 +27,45 @@ export const generateCards = async (
 
 	const prompts = docChunks.map((chunk: string) => ({
 		role: "user",
-		content: "Doc:\n" + chunk,
+		content: chunk,
 	}));
 
 	const results: any[] = [];
 	for (const prompt of prompts) {
-		const response = await fetch(
-			"https://api.openai.com/v1/chat/completions",
-			{
-				method: "POST",
-				headers: {
-					Authorization: `Bearer ${openAIAPIKey}`,
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					model: openAIModel,
-					messages: [
-						{
-							role: "system",
-							content: `You are an multilingual expert in generating notes from documents. 
+		const response = await requestUrl({
+			url: "https://api.openai.com/v1/chat/completions",
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${openAIAPIKey}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				model: openAIModel,
+				messages: [
+					{
+						role: "system",
+						content: `You are an multilingual expert in generating notes from documents. 
 								Please respond in the same language as the user input provided.
-								The notes will need to be in JSON format. 
-								The notes will need to be in the following format: [{id: id, title: "title", content: "content"}].
+								The notes will need to be in JSON array using the schema: [{id: id, title: "title", content: "content"}].
 								Remember, the language of the notes must match the language of the user input.`,
-						},
-						{
-							role: "system",
-							content: `Generate notes from the following doc. Instructions:
+					},
+					{
+						role: "system",
+						content: `Generate notes from the following doc. Instructions:
 							1. The titles of the notes should be short phrases which can be distinguishable with explicit subject matters, and holistically present the main logic structure of the provided doc. 
-							2. The contents of the notes should start with a summary of the data, facts or insights from the original doc, followed by quotes of all relevant pieces from the original doc as supporting. When quoting the original works, use Markdown's blockquotes (ensure to add 1 line break before and after the blockquote).
-							3. Include the author name and original source of each quote. If you don't know the author, leave it empty.
-							4. Include relevant images (use Markdown to include the images).
-							5. Notes should be information rich. Only keep the most informative notes. Combine related notes into one note. \n`,
-						},
-						prompt,
-					],
-					temperature: 0,
-				}),
-			}
-		);
+							2. The content of the notes should start with a summary of the data, facts or insights from the original document, followed by quotes of all relevant pieces from the original document as supporting. 
+							3. When quoting from the original document, use Markdown blockquotes (i.e. '> '). DO NOT inline quotes. Add 1 line break before and after the blockquote.
+							4. Include the author name and original source of each quote. If you don't know the author, leave it empty.
+							5. Include relevant images (use Markdown to link the images).
+							6. Notes should be information-rich. Only keep the most informative notes. Combine related notes into one note. \n`,
+					},
+					prompt,
+				],
+				temperature: 0,
+			}),
+		});
 
-		if (response.status === 401) {
+		if (response.json.status === 401) {
 			const errorMessage = [
 				{
 					id: -1,
@@ -81,27 +80,15 @@ export const generateCards = async (
 			return errorMessage;
 		}
 
-		const data = await response.json();
-		// Assuming the correct data is in data.choices[0].message.content
-		let content =
-			data.choices &&
-			data.choices[0] &&
-			data.choices[0].message &&
-			data.choices[0].message.content;
-		// Check and clean content if necessary
-		if (content && typeof content === "string") {
-			// Remove any non-JSON parts if they exist
-			content = content
-				.replace(/```json/g, "")
-				.replace(/```/g, "")
-				.trim();
-			try {
-				let jsonContent = JSON.parse(content);
-				results.push(...jsonContent);
-			} catch (error) {
-				console.error("Failed to parse JSON content:", content);
-				console.error(error);
-			}
+		const data = await response.json;
+		console.log(data.choices[0].message.content);
+		const content = JSON.parse(data.choices[0].message.content);
+
+		try {
+			results.push(...content);
+		} catch (error) {
+			console.error("Failed to parse JSON content:", content);
+			console.error(error);
 		}
 	}
 	return results;

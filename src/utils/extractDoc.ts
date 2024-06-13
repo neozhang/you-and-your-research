@@ -1,4 +1,5 @@
 import { Card } from "../types";
+import { requestUrl } from "obsidian";
 
 export const extractDoc = async (
 	url: string,
@@ -56,21 +57,23 @@ const extractRemoteDoc = async (url: string, apiKey: string): Promise<Card> => {
 	const jinaAPI = "https://r.jina.ai/";
 	try {
 		const response = await (!apiKey
-			? fetch(jinaAPI + url, {
+			? requestUrl({
 					method: "GET",
 					headers: {
 						Accept: "application/json",
 					},
+					url: jinaAPI + url,
 			  })
-			: fetch(jinaAPI + url, {
+			: requestUrl({
 					method: "GET",
 					headers: {
 						Accept: "application/json",
 						Authorization: `Bearer ${apiKey}`,
 					},
+					url: jinaAPI + url,
 			  }));
 
-		const data = await response.json();
+		const data = await response.json;
 		return {
 			id: 1,
 			title: data.data.title.replace(/[\\/:*?"<>|]/g, "_"),

@@ -129,6 +129,7 @@ ul.generated-cards {
 	text-align: left;
 	line-height: normal;
 	margin-bottom: 0px;
+	overflow-y: hidden;
 }
 
 .card-secondary > .card-main > .card-title {
