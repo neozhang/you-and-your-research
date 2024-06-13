@@ -51,7 +51,7 @@ export const DocCard: React.FC<DocCardProps> = ({
 	};
 
 	return (
-		<div>
+		<div className="doc-container">
 			<div
 				className={`card card-primary ${
 					doc.id === -1 ? "card-warning" : ""
