@@ -51,7 +51,6 @@ export const DocCard: React.FC<DocCardProps> = ({
 				newDoc.savedName = f;
 				newDoc.saved = true;
 				onSaveDoc(newDoc);
-				console.log(doc);
 			});
 		}
 	};
