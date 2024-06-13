@@ -88,7 +88,7 @@ export const DocCard: React.FC<DocCardProps> = ({
 						className="btn btn-primary"
 						onClick={async () => {
 							setIsGenerating(true);
-							// setCards([]);
+							onGenerate([]);
 							try {
 								const newCards = await generateCards(
 									doc.content,

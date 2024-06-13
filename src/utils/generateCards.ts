@@ -44,21 +44,20 @@ export const generateCards = async (
 					messages: [
 						{
 							role: "system",
-							content: `You are an expert in generating notes from documents. 
-								You will be given a document and a prompt. 
-								You will need to generate notes from the document according to the prompt. 
+							content: `You are an multilingual expert in generating notes from documents. 
+								Please respond in the same language as the user input provided.
 								The notes will need to be in JSON format. 
-								The notes will need to be in the following format: [{id: id, title: "title", content: "content"}].`,
+								The notes will need to be in the following format: [{id: id, title: "title", content: "content"}].
+								Remember, the language of the notes must match the language of the user input.`,
 						},
 						{
-							role: "user",
+							role: "system",
 							content: `Generate notes from the following doc. Instructions:
 							1. The titles of the notes should be short phrases which can be distinguishable with explicit subject matters, and holistically present the main logic structure of the provided doc. 
 							2. The contents of the notes should start with a summary of the data, facts or insights from the original doc, followed by quotes of all relevant pieces from the original doc as supporting. When quoting the original works, use Markdown's blockquotes (ensure to add 1 line break before and after the blockquote).
 							3. Include the author name and original source of each quote. If you don't know the author, leave it empty.
 							4. Include relevant images (use Markdown to include the images).
-							5. The notes including titles and contents should use the original language of the provided doc. 
-							6. Notes should be information rich. Only keep the most informative notes. Combine related notes into one note. \n`,
+							5. Notes should be information rich. Only keep the most informative notes. Combine related notes into one note. \n`,
 						},
 						prompt,
 					],
