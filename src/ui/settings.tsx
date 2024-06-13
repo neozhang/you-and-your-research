@@ -27,6 +27,18 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
+			.setName("OpenAI API Endpoint")
+			.setDesc("Use a custom endpoint")
+			.addText((text) => {
+				text.setPlaceholder("https://api.openai.com/v1")
+					.setValue(this.plugin.settings.openAIAPIEndpoint)
+					.onChange(async (value) => {
+						this.plugin.settings.openAIAPIEndpoint = value;
+						await this.plugin.saveSettings();
+					});
+			});
+
+		new Setting(containerEl)
 			.setName("OpenAI model")
 			.setDesc("Choose your preferred model")
 			.addDropdown((dropdown) => {

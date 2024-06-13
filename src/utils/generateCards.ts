@@ -4,6 +4,7 @@ import { Card } from "../types";
 export const generateCards = async (
 	doc: string,
 	openAIAPIKey: string,
+	openAIAPIEndpoint: string,
 	openAIModel: string
 ): Promise<Card[]> => {
 	function splitText(
@@ -33,7 +34,7 @@ export const generateCards = async (
 	const results: any[] = [];
 	for (const prompt of prompts) {
 		const response = await requestUrl({
-			url: "https://api.openai.com/v1/chat/completions",
+			url: `${openAIAPIEndpoint}/chat/completions`,
 			method: "POST",
 			headers: {
 				Authorization: `Bearer ${openAIAPIKey}`,

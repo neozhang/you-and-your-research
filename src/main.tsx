@@ -9,6 +9,7 @@ const VIEW_TYPE = "react-view";
 
 interface NoteExtractorSetting {
 	openAIAPIKey: string;
+	openAIAPIEndpoint: string;
 	openAIModel: string;
 	jinaAIAPIKey: string;
 	savedLocation: string;
@@ -16,6 +17,7 @@ interface NoteExtractorSetting {
 }
 const DEFAULT_SETTINGS: Partial<NoteExtractorSetting> = {
 	openAIAPIKey: "",
+	openAIAPIEndpoint: "https://api.openai.com/v1",
 	openAIModel: "gpt-3.5-turbo",
 	jinaAIAPIKey: "",
 };
