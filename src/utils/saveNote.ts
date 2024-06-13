@@ -1,13 +1,8 @@
 import { TFile } from "obsidian";
-
-interface Note {
-	title: string;
-	content: string;
-	url: string;
-}
+import { Card } from "../types";
 
 export const saveNote = async (
-	note: Note,
+	note: Card,
 	vault: any,
 	app: any,
 	path: string,

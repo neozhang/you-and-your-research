@@ -1,8 +1,10 @@
+import { Card } from "../types";
+
 export const generateCards = async (
 	doc: string,
 	openAIAPIKey: string,
 	openAIModel: string
-) => {
+): Promise<Card[]> => {
 	function splitText(
 		text: string,
 		maxWords: number = 2000,
@@ -72,6 +74,9 @@ export const generateCards = async (
 					title: "Error",
 					content:
 						"Invalid API key. Please provide a proper OpenAI API key in Settings.",
+					url: "",
+					isLocal: false,
+					savedName: "",
 				},
 			];
 			return errorMessage;
