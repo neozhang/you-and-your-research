@@ -6,4 +6,5 @@ export type Card = {
 	isLocal: boolean;
 	saved?: boolean;
 	savedName: string;
+	savedPath?: string;
 };

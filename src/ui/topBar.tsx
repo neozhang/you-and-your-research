@@ -56,6 +56,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 
 	const extractNote = (url: string, apiKey: string) => {
 		setIsExtracting(true);
+
 		extractDoc(url, apiKey, vault).then((newDoc) => {
 			onExtract(newDoc);
 			setIsExtracting(false);
@@ -71,7 +72,7 @@ export const TopBar: React.FC<TopBarProps> = ({
 					value={inputValue} // Use the new state for the input value
 					onChange={handleInputChange}
 					onKeyDown={handleKeyDown}
-					className="searchbox"
+					className="search-box"
 				/>
 
 				<button

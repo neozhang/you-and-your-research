@@ -28,10 +28,13 @@ export const DocCard: React.FC<DocCardProps> = ({
 	const [isGenerating, setIsGenerating] = React.useState(false);
 
 	const handleSave = async () => {
-		if (doc.saved || doc.isLocal) {
+		if (doc.saved) {
 			openNote(settings.savedLocation, doc.savedName, vault, workspace);
+		} else if (doc.isLocal && doc.savedPath) {
+			openNote(doc.savedPath, doc.savedName, vault, workspace);
 		} else {
-			const f = await saveNote(
+			const newDoc = { ...doc };
+			saveNote(
 				{
 					id: 1,
 					title: doc.title,
@@ -44,10 +47,13 @@ export const DocCard: React.FC<DocCardProps> = ({
 				app,
 				settings.savedLocation,
 				settings.savedTag
-			);
-			onSaveDoc({ ...doc, savedName: f });
+			).then((f) => {
+				newDoc.savedName = f;
+				newDoc.saved = true;
+				onSaveDoc(newDoc);
+				console.log(doc);
+			});
 		}
-		onSaveDoc({ ...doc, saved: true });
 	};
 
 	return (
@@ -67,8 +73,8 @@ export const DocCard: React.FC<DocCardProps> = ({
 						className="btn btn-primary"
 						onClick={handleSave}
 						title={
-							doc.saved
-								? "Open the saved note"
+							doc.saved || doc.isLocal
+								? "Open the note"
 								: "Save to your vault"
 						}
 					>

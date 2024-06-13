@@ -27,7 +27,7 @@ const extractLocalDoc = async (url: string, vault: any): Promise<Card> => {
 	const doc = await findFileInVault(docName + ".md", vault.getRoot());
 
 	if (doc) {
-		const data = await vault.read(doc);
+		const data = await vault.read(doc.file);
 		const contentWithoutFrontmatter = data.replace(/---[\s\S]*?---\n/, "");
 		return {
 			id: 1,
@@ -35,8 +35,9 @@ const extractLocalDoc = async (url: string, vault: any): Promise<Card> => {
 			content: contentWithoutFrontmatter,
 			url: url,
 			isLocal: true,
-			saved: true,
+			saved: false,
 			savedName: docName.replace(/[\\/:*?"<>|]/g, "_") + ".md",
+			savedPath: doc.path,
 		};
 	} else {
 		return {
@@ -94,15 +95,17 @@ const extractRemoteDoc = async (url: string, apiKey: string): Promise<Card> => {
 
 const findFileInVault = async (
 	fileName: string,
-	directory: any
-): Promise<any | null> => {
+	directory: any,
+	currentPath: string = ""
+): Promise<{ file: any; path: string } | null> => {
 	const files = directory.children;
 	for (const file of files) {
+		const newPath = currentPath;
 		if (file.children) {
-			const found = await findFileInVault(fileName, file);
+			const found = await findFileInVault(fileName, file, newPath);
 			if (found) return found;
 		} else if (file.name === fileName) {
-			return file;
+			return { file, path: newPath };
 		}
 	}
 	return null;

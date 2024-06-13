@@ -27,6 +27,7 @@ export const NoteExtractor: React.FC = () => {
 
 	const handleExtract = (doc: Card) => {
 		setDoc(doc);
+		setCards([]);
 	};
 
 	const handleSaveDoc = (doc: Card) => {

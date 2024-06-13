@@ -38,12 +38,12 @@ If your plugin does not need CSS, delete this file.
 	width: 100%;
 }
 
-.topbar > form > .searchbox {
+.topbar > form > .search-box {
 	border: none;
 	flex-grow: 1;
 }
 
-.topbar > form > .searchbox:focus {
+.topbar > form > .search-box:focus {
 	border: none;
 }
 
