@@ -117,7 +117,7 @@ export const NoteExtractor = () => {
 			},
 			vault,
 			app,
-			setting.savedLocation
+			settings.savedLocation
 		);
 		newCards[index].savedName = f;
 		newCards[index].saved = true;
