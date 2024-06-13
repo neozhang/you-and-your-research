@@ -98,6 +98,7 @@ export const DocCard: React.FC<DocCardProps> = ({
 								const newCards = await generateCards(
 									doc.content,
 									settings.openAIAPIKey,
+									settings.openAIAPIEndpoint,
 									settings.openAIModel
 								);
 								const updatedCards = newCards.map(
