@@ -24,15 +24,55 @@ export const generateCards = async (
 		return chunks;
 	}
 
+	function splitTextByParagraphs(
+		text: string,
+		maxWords: number = 2000
+	): string[] {
+		const paragraphs = text.split(/\n\s*\n/); // Split by paragraphs
+		const chunks: string[] = [];
+		let currentChunk: string[] = [];
+		let currentWordCount = 0;
+
+		for (const paragraph of paragraphs) {
+			const wordCount = paragraph.split(" ").length;
+
+			// Check if the paragraph is a heading
+			const isHeading = /^\s*#/.test(paragraph);
+
+			if (isHeading) {
+				// If heading, start a new chunk
+				if (currentChunk.length > 0) {
+					chunks.push(currentChunk.join("\n\n"));
+				}
+				currentChunk = [paragraph];
+				currentWordCount = wordCount;
+			} else {
+				// Normal paragraph logic
+				if (currentWordCount + wordCount <= maxWords) {
+					currentChunk.push(paragraph);
+					currentWordCount += wordCount;
+				} else {
+					if (currentChunk.length > 0) {
+						chunks.push(currentChunk.join("\n\n"));
+					}
+					currentChunk = [paragraph];
+					currentWordCount = wordCount;
+				}
+			}
+		}
+
+		// Add the last chunk if there's any remaining content
+		if (currentChunk.length > 0) {
+			chunks.push(currentChunk.join("\n\n"));
+		}
+
+		return chunks;
+	}
+
 	const docChunks = openAIModel === "gpt-3.5-turbo" ? splitText(doc) : [doc];
 
-	const prompts = docChunks.map((chunk: string) => ({
-		role: "user",
-		content: chunk,
-	}));
-
 	const results: any[] = [];
-	for (const prompt of prompts) {
+	for (const chunk of docChunks) {
 		const response = await requestUrl({
 			url: `${openAIAPIEndpoint}/chat/completions`,
 			method: "POST",
@@ -60,7 +100,10 @@ export const generateCards = async (
 							5. Include relevant images (use Markdown to link the images).
 							6. Notes should be information-rich. Only keep the most informative notes. Combine related notes into one note. \n`,
 					},
-					prompt,
+					{
+						role: "user",
+						content: chunk,
+					},
 				],
 				temperature: 0,
 			}),
@@ -82,7 +125,6 @@ export const generateCards = async (
 		}
 
 		const data = await response.json;
-		console.log(data.choices[0].message.content);
 		const content = JSON.parse(data.choices[0].message.content);
 
 		try {
