@@ -24,51 +24,6 @@ export const generateCards = async (
 		return chunks;
 	}
 
-	function splitTextByParagraphs(
-		text: string,
-		maxWords: number = 2000
-	): string[] {
-		const paragraphs = text.split(/\n\s*\n/); // Split by paragraphs
-		const chunks: string[] = [];
-		let currentChunk: string[] = [];
-		let currentWordCount = 0;
-
-		for (const paragraph of paragraphs) {
-			const wordCount = paragraph.split(" ").length;
-
-			// Check if the paragraph is a heading
-			const isHeading = /^\s*#/.test(paragraph);
-
-			if (isHeading) {
-				// If heading, start a new chunk
-				if (currentChunk.length > 0) {
-					chunks.push(currentChunk.join("\n\n"));
-				}
-				currentChunk = [paragraph];
-				currentWordCount = wordCount;
-			} else {
-				// Normal paragraph logic
-				if (currentWordCount + wordCount <= maxWords) {
-					currentChunk.push(paragraph);
-					currentWordCount += wordCount;
-				} else {
-					if (currentChunk.length > 0) {
-						chunks.push(currentChunk.join("\n\n"));
-					}
-					currentChunk = [paragraph];
-					currentWordCount = wordCount;
-				}
-			}
-		}
-
-		// Add the last chunk if there's any remaining content
-		if (currentChunk.length > 0) {
-			chunks.push(currentChunk.join("\n\n"));
-		}
-
-		return chunks;
-	}
-
 	const docChunks = openAIModel === "gpt-3.5-turbo" ? splitText(doc) : [doc];
 
 	const results: any[] = [];
@@ -84,23 +39,6 @@ export const generateCards = async (
 					4. Include the author name and original source of each quote. If you don't know the author, leave it empty. \n
 					5. Include relevant images (use Markdown to link the images). \n
 					6. Notes should be information-rich. Only keep the most informative notes. Combine related notes into one note. \n`;
-
-	const prompt2 = `You will be given some paragraphs of texts. Use the following instructions to process ALL the provided paragraphs. Remain the original language of the provided texts. \n
-					1. Exclude the headings and promotional paragraphs. Include all the other paragraphs, especially the quoted paragraphs. \n
-					2. Group paragraphs based on the similarity of meanings. \n
-					3. Give each group a new $title$, which should be a short complete sentence. \n
-					4. Give each group a $summary$. \n
-					5. Select sentences ($selectedSentences$) from each paragraph group, which can represent the core meaning of the group. Use triple dots (...) to separate sentences. \n
-					6. Output in JSON with the schema: \n
-
-						[
-							{
-								id: a unique id,
-								title: $title$, 
-								content: $summary$ + $selectedSentences$, 
-							}, 
-							...
-						]`;
 
 	for (const doc of docChunks) {
 		const response = await requestUrl({
