@@ -26,6 +26,8 @@
 		"typescript": "4.7.4"
 	},
 	"dependencies": {
+		"@ai-sdk/openai": "^0.0.31",
+		"ai": "^3.2.1",
 		"lucide-react": "^0.390.0"
 	}
 }

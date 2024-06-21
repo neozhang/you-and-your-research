@@ -2,6 +2,7 @@ import React from "react";
 import { SquarePlus, Tornado, BookOpen, Settings } from "lucide-react";
 import saveNote, { openNote } from "../utils/saveNote";
 import generateCards from "../utils/generateCards";
+import { splitText } from "../utils/splitText";
 import { Card } from "../types";
 
 interface DocCardProps {
@@ -94,27 +95,23 @@ export const DocCard: React.FC<DocCardProps> = ({
 						onClick={async () => {
 							setIsGenerating(true);
 							onGenerate([]);
+
 							try {
-								const newCards = await generateCards(
-									doc.content,
-									settings.openAIAPIKey,
-									settings.openAIAPIEndpoint,
-									settings.openAIModel
+								const chunks = splitText(doc.content);
+
+								// const allGeneratedCards: Card[] = [];
+								await Promise.all(
+									chunks.map(async (chunk) => {
+										const newCards = await generateCards(
+											chunk,
+											settings.openAIAPIKey,
+											settings.openAIAPIEndpoint,
+											settings.openAIModel
+										);
+										// allGeneratedCards.push(...newCards);
+										onGenerate(newCards);
+									})
 								);
-								const updatedCards = newCards.map(
-									(card: any) => {
-										return {
-											id: card.id,
-											title: card.title,
-											content: card.content,
-											url: "[[" + card.title + "]]",
-											isLocal: false,
-											saved: false,
-											savedName: "",
-										};
-									}
-								);
-								onGenerate(updatedCards);
 							} finally {
 								setIsGenerating(false);
 							}

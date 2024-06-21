@@ -35,7 +35,7 @@ export const NoteExtractor: React.FC = () => {
 	};
 
 	const handleGenerate = (cards: Card[]) => {
-		setCards(cards);
+		setCards((prevCards) => [...prevCards, ...cards]);
 	};
 
 	const handleSaveCard = (cards: Card[]) => {
