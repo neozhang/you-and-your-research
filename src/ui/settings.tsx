@@ -15,7 +15,7 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName("OpenAI API key")
+			.setName("OpenAI or compatible API key")
 			.setDesc("Bring your own API key")
 			.addText((text) => {
 				text.setPlaceholder("sk-")
@@ -27,7 +27,7 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("OpenAI API Endpoint")
+			.setName("OpenAI or compatible API Endpoint")
 			.setDesc("Use a custom endpoint")
 			.addText((text) => {
 				text.setPlaceholder("https://api.openai.com/v1")
@@ -38,21 +38,49 @@ export class NoteExtractorSettingTab extends PluginSettingTab {
 					});
 			});
 
-		new Setting(containerEl)
-			.setName("OpenAI model")
+		const modelSetting = new Setting(containerEl)
+			.setName("Model name")
 			.setDesc("Choose your preferred model")
 			.addDropdown((dropdown) => {
 				dropdown
 					.addOptions({
 						"gpt-3.5-turbo": "gpt-3.5-turbo",
 						"gpt-4o": "gpt-4o",
+						Custom: "Custom",
 					})
-					.setValue(this.plugin.settings.openAIModel)
+					.setValue(
+						["gpt-3.5-turbo", "gpt-4o"].includes(
+							this.plugin.settings.openAIModel
+						)
+							? this.plugin.settings.openAIModel
+							: "Custom"
+					)
 					.onChange(async (value) => {
 						this.plugin.settings.openAIModel = value;
 						await this.plugin.saveSettings();
+						this.display(); // Re-render the settings tab
 					});
 			});
+
+		if (
+			!["gpt-3.5-turbo", "gpt-4o"].includes(
+				this.plugin.settings.openAIModel
+			)
+		) {
+			new Setting(containerEl)
+				.setName("Custom model")
+				.setDesc(
+					"Refer to your API documentation for available models."
+				)
+				.addText((text) => {
+					text.setValue(this.plugin.settings.openAIModel).onChange(
+						async (value) => {
+							this.plugin.settings.openAIModel = value;
+							await this.plugin.saveSettings();
+						}
+					);
+				});
+		}
 
 		new Setting(containerEl)
 			.setName("Jina AI API key (optional)")

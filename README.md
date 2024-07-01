@@ -18,7 +18,7 @@ Install and enable the plugin from Obsidian's Community Plugins platform.
 
 You can also provide a custom endpoint for OpenAI API. This is useful if you are using a self-hosted version of OpenAI or compatible API.
 
-You can choose gpt-3.5-turbo or gpt-4o as your model of choice.
+You can choose `gpt-3.5-turbo` or `gpt-4o` as your model of choice. You can also use a custom model name such as `llama3-70b-8192`. Refer to the API documentation for available model names.
 
 **OPTIONAL** The plugin also uses Jina AI to extract the content of the web pages you read. You can also bring your own API key for using Jina AI. You can get it from the [Jina website](https://jina.ai/reader/#apiform). Add it in the plugin settings.
 
